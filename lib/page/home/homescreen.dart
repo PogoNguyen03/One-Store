@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:one_store/data/model/category_model.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'homescreenwidget.dart';
-import 'package:circle_nav_bar/circle_nav_bar.dart';
+import 'package:one_store/data/model/product_model.dart';
+import 'girdproductitem.dart';
+import 'girdcategoryitem.dart';
+// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'panner.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -21,15 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/image/banner/banner_2.png',
     'assets/image/banner/banner_3.png',
     // Thêm các hình ảnh khác của bạn vào đây
-  ];
-
-  // Khai báo navItems
-  final List<Map<String, dynamic>> navItems = [
-    {'icon': Icons.home_filled, 'label': 'Home'},
-    {'icon': Icons.favorite, 'label': 'Home'},
-    {'icon': Icons.search, 'label': 'Search'},
-    {'icon': Icons.shopping_bag, 'label': 'Cart'},
-    {'icon': Icons.dehaze, 'label': 'Profile'},
   ];
 
   @override
@@ -48,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Positioned(
-                  top: 150, // Đặt top 150px để tạo khoảng cách
+                  top: 130, // Đặt top 150px để tạo khoảng cách
                   left: 0,
                   right: 0,
                   child: CarouselSlider.builder(
@@ -69,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Positioned(
-                  top: 10,
+                  // top: 10,
                   left: 30,
                   child: Image.asset(
                     "assets/image/logo_2.png",
@@ -79,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Positioned(
-                  top: 60,
+                  top: 45,
                   right: 35,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -156,16 +151,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 30),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 40,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
                       ),
-                      itemCount: categoriesGrid.length,
+                      itemCount: productsGrid.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {},
@@ -180,33 +176,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: CircleNavBar(
-        onTap: (index) {
-          setState(() {
-            navbarIndex = index;
-          });
-        },
-        height: 60,
-        circleWidth: 60,
-        activeIndex: navbarIndex,
-        circleColor: const Color(0xFFF3B664),
-        color: const Color(0xFFEC8F5E),
-        activeIcons: List.generate(
-            navItems.length, (index) => Icon(navItems[index]['icon'])),
-        inactiveIcons: List.generate(navItems.length,
-            (index) => Icon(navItems[index]['icon'], color: Colors.white)),
-      ),
     );
   }
 
-  Widget buildImage(String urlImage, int index, BoxFit fit) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      color: Colors.grey,
-      child: Image.asset(
-        urlImage,
-        fit: fit,
-      ),
-    );
-  }
+  // Widget buildImage(String urlImage, int index, BoxFit fit) {
+  //   return Container(
+  //     margin: const EdgeInsets.symmetric(horizontal: 12),
+  //     color: Colors.grey,
+  //     child: Image.asset(
+  //       urlImage,
+  //       fit: fit,
+  //     ),
+  //   );
+  // }
 }

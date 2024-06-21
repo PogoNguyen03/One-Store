@@ -56,9 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               // Xử lý khi nút đăng nhập được nhấn
                             },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  const Color(0xFFF3B664)),
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(120, 20), // Đặt kích thước 100x50
+                              backgroundColor: const Color(0xFFF3B664),
                             ),
                             child: const Text(
                               'Đăng nhập',
@@ -75,6 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => RegisterScreen(),
                                   ));
                             },
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(120, 20), // Đặt kích thước 100x50
+                              backgroundColor:
+                                  Color.fromARGB(255, 255, 255, 255),
+                            ),
                             child: const Text(
                               'Đăng ký',
                               style: TextStyle(color: Colors.black),

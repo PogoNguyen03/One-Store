@@ -38,25 +38,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () {
-                        // Xử lý khi nút đăng nhập được nhấn
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ));
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFFF3B664)),
-                      ),
-                      child: const Text(
-                        'Đăng nhập',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(width: 15), // Khoảng cách giữa hai nút
-                    ElevatedButton(
-                      onPressed: () {
                         // Xử lý khi nút đăng ký được nhấn
                         Navigator.push(
                             context,
@@ -64,12 +45,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               builder: (context) => RegisterScreen(),
                             ));
                       },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 0, 0, 0)),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(120, 20), // Đặt kích thước 100x50
+                        backgroundColor: const Color(0xFFF3B664),
                       ),
                       child: const Text(
                         'Đăng ký',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(width: 15), // Khoảng cách giữa hai nút
+                    ElevatedButton(
+                      onPressed: () {
+                        // Xử lý khi nút đăng nhập được nhấn
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(120, 20), // Đặt kích thước 100x50
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      child: const Text(
+                        'Đăng nhập',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
