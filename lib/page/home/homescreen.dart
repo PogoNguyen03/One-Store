@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:one_store/data/model/category_model.dart';
 import 'package:one_store/data/model/product_model.dart';
+import 'package:one_store/page/product/productdetailscreen.dart';
 import 'girdproductitem.dart';
 import 'girdcategoryitem.dart';
 // import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -164,7 +165,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: productsGrid.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProductDetail(productsGrid[index]),
+                                ));
+                          },
                           child: GridProductItems(index),
                         );
                       },

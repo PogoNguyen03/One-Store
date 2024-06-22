@@ -1,11 +1,24 @@
 class ProductModel {
-  String productid, imageUrl, name, price;
+  String productid,
+      imageUrl,
+      name,
+      price,
+      categoryBook,
+      authorBook,
+      publishingYear,
+      sizeBook,
+      weightBook;
 
   ProductModel({
     required this.productid,
     required this.imageUrl,
     required this.name,
     required this.price,
+    required this.categoryBook,
+    required this.authorBook,
+    required this.publishingYear,
+    required this.sizeBook,
+    required this.weightBook,
   });
 }
 
@@ -15,30 +28,55 @@ List<ProductModel> productsGrid = [
     imageUrl: "doithoaivoinhungnguoitienphong.png",
     name: "Đối thoại với những người tiên phong",
     price: "114000",
+    categoryBook: "Kinh tế",
+    authorBook: "Nhiều tác giả",
+    publishingYear: "2021",
+    sizeBook: "13 x 20.5 cm",
+    weightBook: "250g",
   ),
   ProductModel(
     productid: "2",
     imageUrl: "chiasetutraitim-bia.png",
     name: "Chia sẻ từ trái tim",
     price: "134000",
+    categoryBook: "Tâm lý",
+    authorBook: "Nhiều tác giả",
+    publishingYear: "2020",
+    sizeBook: "14 x 21 cm",
+    weightBook: "300g",
   ),
   ProductModel(
     productid: "3",
     imageUrl: "NFT.png",
     name: "NFT - Đáp Án Mới Cho Sự Thịnh Vượng",
     price: "70000",
+    categoryBook: "Công nghệ",
+    authorBook: "Nhiều tác giả",
+    publishingYear: "2022",
+    sizeBook: "15 x 22 cm",
+    weightBook: "350g",
   ),
   ProductModel(
     productid: "4",
     imageUrl: "lamchuthitruongnganh.png",
     name: "Làm chủ thị trường ngách",
     price: "102000",
+    categoryBook: "Kinh doanh",
+    authorBook: "Nhiều tác giả",
+    publishingYear: "2019",
+    sizeBook: "13 x 20.5 cm",
+    weightBook: "280g",
   ),
   ProductModel(
     productid: "5",
     imageUrl: "frame-1.png",
     name: "Phát Triển Trí Não Cho Trẻ Qua Tô-Dán Và Nối Hình - Khủng Long",
     price: "41000",
+    categoryBook: "Giáo dục",
+    authorBook: "Nhiều tác giả",
+    publishingYear: "2021",
+    sizeBook: "18 x 25 cm",
+    weightBook: "200g",
   ),
   ProductModel(
     productid: "6",
@@ -46,5 +84,10 @@ List<ProductModel> productsGrid = [
     name:
         "Hành Trình Thai Giáo 280 Ngày - Mỗi Ngày Đọc Một Trang (Tái Bản 2023)",
     price: "67000",
+    categoryBook: "Giáo dục",
+    authorBook: "Nhiều tác giả",
+    publishingYear: "2023",
+    sizeBook: "14 x 21 cm",
+    weightBook: "320g",
   ),
 ];
