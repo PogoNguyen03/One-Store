@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Banner {
   int? id;
   String? img;

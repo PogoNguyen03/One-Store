@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:one_store/page/login/loginscreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
+import 'package:one_store/page/account/accountwidget.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+// import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({Key? key}) : super(key: key);
+  const Mainpage({super.key});
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -13,11 +13,23 @@ class Mainpage extends StatefulWidget {
 
 class _MainpageState extends State<Mainpage> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(), // Thay đổi thành HomeScreen
-    LoginScreen(),
+    HomeScreen(),
+    // AccountWidget(),
   ];
 
   // Khai báo navItems
@@ -31,27 +43,33 @@ class _MainpageState extends State<Mainpage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: CircleNavBar(
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          height: 60,
-          circleWidth: 60,
-          activeIndex: _selectedIndex,
-          circleColor: const Color(0xFFF3B664),
-          color: const Color(0xFFEC8F5E),
-          activeIcons: List.generate(
-              navItems.length, (index) => Icon(navItems[index]['icon'])),
-          inactiveIcons: List.generate(navItems.length,
-              (index) => Icon(navItems[index]['icon'], color: Colors.white)),
-        ),
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        children: _widgetOptions,
+      ),
+      bottomNavigationBar: CircleNavBar(
+        onTap: (index) {
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
+        },
+        height: 60,
+        circleWidth: 60,
+        activeIndex: _selectedIndex,
+        circleColor: const Color(0xFFF3B664),
+        color: const Color(0xFFEC8F5E),
+        activeIcons: List.generate(
+            navItems.length, (index) => Icon(navItems[index]['icon'])),
+        inactiveIcons: List.generate(navItems.length,
+            (index) => Icon(navItems[index]['icon'], color: Colors.white)),
       ),
     );
   }
