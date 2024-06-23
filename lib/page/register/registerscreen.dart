@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ));
                         },
                         style: ElevatedButton.styleFrom(
-                          fixedSize: Size(120, 20), // Đặt kích thước 100x50
+                          fixedSize: Size(130, 20), // Đặt kích thước 100x50
                           backgroundColor: const Color(0xFFF3B664),
                         ),
                         child: const Text(
@@ -69,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ));
                         },
                         style: ElevatedButton.styleFrom(
-                          fixedSize: Size(120, 20), // Đặt kích thước 100x50
+                          fixedSize: Size(130, 20), // Đặt kích thước 100x50
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                         ),
                         child: const Text(

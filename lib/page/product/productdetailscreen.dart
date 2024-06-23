@@ -110,8 +110,10 @@ class _ProductDetailState extends State<ProductDetail> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    buildInfoSection(widget.product),
-                    buildDescriptionSection(widget.product),
+                    SingleChildScrollView(
+                        child: buildInfoSection(widget.product)),
+                    SingleChildScrollView(
+                        child: buildDescriptionSection(widget.product)),
                   ],
                 ),
               ),
@@ -119,7 +121,7 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(right: 60, left: 60, bottom: 30),
+          padding: const EdgeInsets.only(right: 60, left: 60, bottom: 30),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -147,9 +149,10 @@ class _ProductDetailState extends State<ProductDetail> {
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10.0), // Đặt bán kính bo góc là 10.0
-                        side: (const BorderSide(
-                            color: Color(0xFFEC8F5E),
-                            width: 2)), // Viền là màu cam
+                        side: const BorderSide(
+                          color: Color(0xFFEC8F5E),
+                          width: 2,
+                        ), // Viền là màu cam
                       ),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -157,7 +160,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     foregroundColor: MaterialStateProperty.all<Color>(
                         Color(0xFFEC8F5E)), // Màu chữ là màu cam
                   ),
-                  child: Text('Thêm vào giỏ hàng'),
+                  child: const Text('Thêm vào giỏ hàng'),
                 ),
               ),
             ],
