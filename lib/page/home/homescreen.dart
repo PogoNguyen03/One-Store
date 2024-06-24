@@ -32,156 +32,163 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Stack(
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.asset(
-                    "assets/layout/layout_2.png",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  top: 130, // Đặt top 150px để tạo khoảng cách
-                  left: 0,
-                  right: 0,
-                  child: CarouselSlider.builder(
-                    itemCount: imgList.length,
-                    itemBuilder: (context, index, realIndex) {
-                      final urlImage = imgList[index];
-                      return buildImage(urlImage, index, BoxFit.fill);
-                    },
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          carouselIndex = index;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Positioned(
-                  // top: 10,
-                  left: 30,
-                  child: Image.asset(
-                    "assets/image/logo_2.png",
-                    width: 150,
-                    height: 150,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                Positioned(
-                  top: 45,
-                  right: 35,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      iconSize: 40,
-                      icon: const Icon(Icons.notifications,
-                          color: Color(0xFFFFFFFF)),
-                      onPressed: () {
-                        // Hành động khi nút được nhấn
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemCount: categoriesGrid.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: GridItems(index),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 30.0, top: 15.0),
-                          child: Text(
-                            'Sản phẩm mới',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30.0, top: 15),
-                          child: InkWell(
-                            onTap: () {},
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  'Xem tất cả',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: 4),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                      ),
-                      itemCount: productsGrid.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductDetail(productsGrid[index]),
-                                ));
-                          },
-                          child: GridProductItems(index),
-                        );
-                      },
-                    ),
-                  ],
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          clipBehavior: Clip.none,
+          child: Stack(
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  "assets/layout/layout_2.png",
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                // top: 10,
+                left: 30,
+                child: Image.asset(
+                  "assets/image/logo_2.png",
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Positioned(
+                top: 45,
+                right: 35,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    iconSize: 40,
+                    icon: const Icon(Icons.notifications,
+                        color: Color(0xFFFFFFFF)),
+                    onPressed: () {
+                      // Hành động khi nút được nhấn
+                    },
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 130, // Đặt top 150px để tạo khoảng cách
+                left: 0,
+                right: 0,
+                child: CarouselSlider.builder(
+                  itemCount: imgList.length,
+                  itemBuilder: (context, index, realIndex) {
+                    final urlImage = imgList[index];
+                    return buildImage(urlImage, index, BoxFit.fill);
+                  },
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        carouselIndex = index;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 350,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: categoriesGrid.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: GridItems(index),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 30.0, top: 15.0),
+                            child: Text(
+                              'Sản phẩm mới',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: 30.0, top: 15),
+                            child: InkWell(
+                              onTap: () {},
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    'Xem tất cả',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                        ),
+                        itemCount: productsGrid.length > 6
+                            ? 6
+                            : productsGrid.length, // Giới hạn số lượng hiển thị
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetail(productsGrid[index]),
+                                  ));
+                            },
+                            child: GridProductItems(index),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

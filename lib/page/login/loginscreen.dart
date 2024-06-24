@@ -9,8 +9,6 @@ import 'package:one_store/page/home/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import '../../data/model/users.dart';
-// import 'package:flutter/widgets.dart';
-//LoginScreen
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -48,7 +46,28 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoginTrue = true;
       });
+      showAlertDialog(context);
     }
+  }
+
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Lỗi đăng nhập"),
+          content: Text("Tài khoản hoặc mật khẩu không đúng"),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //We have to create global key for our form
@@ -145,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: username,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Không được để chống tài khoản";
+                            return "Không được để trống tài khoản";
                           }
                           return null;
                         },
@@ -360,25 +379,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-
-                    //Sign up button
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     const Text("Don't have an account?"),
-                    //     TextButton(
-                    //         onPressed: () {
-                    //           //Navigate to sign up
-                    //           Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) => const SignUp()));
-                    //         },
-                    //         child: const Text("SIGN UP"))
-                    //   ],
-                    // ),
-
-                    // We will disable this message in default, when user and pass is incorrect we will trigger this message to user
                     isLoginTrue
                         ? const Text(
                             "Tài khoản hoặc mật khẩu không đúng",
