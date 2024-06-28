@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
 
 import '../../data/model/category_book_model.dart';
+import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
 
 class ProductDetail extends StatefulWidget {
   final ProductModel product;
@@ -14,12 +15,37 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   int _selectedIndex = 0;
+  // Biến lưu trạng thái yêu thích
+  bool isFavorite = false;
+  // Danh sách các sản phẩm yêu thích
+  // List<ProductModel> favoriteProducts = [];
+
+  // Hàm chuyển đổi trạng thái yêu thích
+  void toggleFavorite() {
+    setState(() {
+      isFavorite = !isFavorite;
+      if (isFavorite) {
+        // Thêm sản phẩm vào danh sách yêu thích
+        favoriteProducts.add(widget.product);
+      } else {
+        // Xóa sản phẩm khỏi danh sách yêu thích
+        favoriteProducts.remove(widget.product);
+      }
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
     // Thêm hành vi khi mỗi mục được nhấn, nếu cần
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Kiểm tra nếu sản phẩm này đã được thêm vào danh sách yêu thích
+    isFavorite = favoriteProducts.contains(widget.product);
   }
 
   @override
@@ -134,11 +160,12 @@ class _ProductDetailState extends State<ProductDetail> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.favorite_border_rounded),
-                  color: Colors.white,
-                  onPressed: () {
-                    // Thực hiện hành động khi nhấn nút
-                  },
+                  // Thay đổi biểu tượng yêu thích dựa trên trạng thái
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border_rounded,
+                    color: Colors.white,
+                  ),
+                  onPressed: toggleFavorite,
                 ),
               ),
               Container(

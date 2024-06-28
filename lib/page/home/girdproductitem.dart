@@ -13,7 +13,10 @@ class GridProductItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+      ),
       child: Column(
         children: [
           Image(

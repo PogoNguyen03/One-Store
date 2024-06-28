@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/page/favourite/favouritescreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
-import 'package:one_store/page/account/accountwidget.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
-// import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Mainpage extends StatefulWidget {
   const Mainpage({super.key});
@@ -29,10 +28,10 @@ class _MainpageState extends State<Mainpage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    // AccountWidget(),
+    FavoritesScreen(),
+    // AccountWidget(), // Uncomment nếu bạn có trang này
   ];
 
-  // Khai báo navItems
   final List<Map<String, dynamic>> navItems = [
     {'icon': Icons.home_filled, 'label': 'Home'},
     {'icon': Icons.favorite, 'label': 'Favorite'},
