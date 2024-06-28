@@ -71,34 +71,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Positioned(
-                top: 130, // Đặt top 150px để tạo khoảng cách
-                left: 0,
-                right: 0,
-                child: CarouselSlider.builder(
-                  itemCount: imgList.length,
-                  itemBuilder: (context, index, realIndex) {
-                    final urlImage = imgList[index];
-                    return buildImage(urlImage, index, BoxFit.fill);
-                  },
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        carouselIndex = index;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 350,
+                top: 100,
                 left: 0,
                 right: 0,
                 bottom: 0,
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
+                      Positioned(
+                        top: 130, // Đặt top 150px để tạo khoảng cách
+                        left: 0,
+                        right: 0,
+                        child: CarouselSlider.builder(
+                          itemCount: imgList.length,
+                          itemBuilder: (context, index, realIndex) {
+                            final urlImage = imgList[index];
+                            return buildImage(urlImage, index, BoxFit.fill);
+                          },
+                          options: CarouselOptions(
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                carouselIndex = index;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

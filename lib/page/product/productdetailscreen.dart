@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
 
+import '../../data/model/category_book_model.dart';
+
 class ProductDetail extends StatefulWidget {
   final ProductModel product;
 
@@ -186,7 +188,7 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
           ),
           const SizedBox(height: 20),
-          buildInfoRow('Thể loại:', product.categoryBook),
+          buildInfoRow('Thể loại:', getCategoryBookName(product.categoryBook)),
           buildInfoRow('Tác giả:', product.authorBook),
           buildInfoRow('Năm XB:', product.publishingYear),
           buildInfoRow('Giá bán:', '${product.price} VNĐ', isPrice: true),
@@ -234,5 +236,13 @@ class _ProductDetailState extends State<ProductDetail> {
       padding: const EdgeInsets.all(16.0),
       child: Text('Mô tả sản phẩm: Đây là mô tả của sản phẩm ${product.name}.'),
     );
+  }
+
+  String getCategoryBookName(String categoryBookId) {
+    CategoryBookModel? categoryBook = categoryBookGrid.firstWhere(
+      (category) => category.categoryBookid == categoryBookId,
+      orElse: () => CategoryBookModel(categoryBookid: '', name: 'Unknown'),
+    );
+    return categoryBook.name;
   }
 }

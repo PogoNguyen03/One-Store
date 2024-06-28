@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 import 'package:one_store/data/model/category_book_model.dart';
 import 'categorybooklistview.dart';
 import 'productgridlistbook.dart';
 
-class BookListScreen extends StatelessWidget {
+class BookListScreen extends StatefulWidget {
   final String categoryId;
 
   BookListScreen({required this.categoryId});
 
   @override
-  Widget build(BuildContext context) {
-    List<ProductModel> filteredProducts = productsGrid
-        .where((product) => product.categoryItem == categoryId)
-        .toList();
+  _BookListScreenState createState() => _BookListScreenState();
+}
 
+class _BookListScreenState extends State<BookListScreen> {
+  List<ProductModel> filteredProducts = [];
+  String selectedCategoryId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    filterProducts(selectedCategoryId);
+  }
+
+  void filterProducts(String categoryId) {
+    setState(() {
+      selectedCategoryId = categoryId;
+      if (categoryId.isEmpty) {
+        filteredProducts = productsGrid;
+      } else {
+        filteredProducts = productsGrid
+            .where((product) => product.categoryBook == categoryId)
+            .toList();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<CategoryBookModel> categories = [
+      CategoryBookModel(categoryBookid: '', name: 'Tất cả'),
+      ...categoryBookGrid,
+    ];
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Danh sách sản phẩm'),
-      // ),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -35,8 +58,6 @@ class BookListScreen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                // top:
-                //     30, // Điều chỉnh vị trí từ top để phù hợp với vị trí của logo
                 left: 0,
                 right: 0,
                 child: Padding(
@@ -50,8 +71,7 @@ class BookListScreen extends StatelessWidget {
                         height: 150,
                         fit: BoxFit.contain,
                       ),
-                      Spacer(
-                          flex: 1), // Spacer với flex nhỏ để giảm khoảng cách
+                      Spacer(flex: 1),
                       IconButton(
                         iconSize: 40,
                         icon: const Icon(Icons.notifications,
@@ -65,15 +85,35 @@ class BookListScreen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top:
-                    130, // Điều chỉnh vị trí từ top để phù hợp với vị trí của danh sách danh mục
+                top: 130,
                 left: 0,
                 right: 0,
-                child: CategoryBookListView(categories: categoryBookGrid),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CategoryBookListView(
+                          categories: categories,
+                          onCategorySelected: (selectedCategory) {
+                            filterProducts(selectedCategory.categoryBookid);
+                          },
+                          selectedCategoryId: selectedCategoryId,
+                        ),
+                      ),
+                      IconButton(
+                        iconSize: 30,
+                        icon: const Icon(Icons.tune, color: Colors.black),
+                        onPressed: () {
+                          // Hành động khi nút được nhấn
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Positioned(
-                top:
-                    200, // Điều chỉnh vị trí từ top để phù hợp với vị trí của danh sách sản phẩm
+                top: 200,
                 left: 0,
                 right: 0,
                 bottom: 0,
