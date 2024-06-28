@@ -9,6 +9,7 @@ class ProductModel {
       publishingYear,
       sizeBook,
       weightBook;
+  DateTime updateBook;
 
   ProductModel({
     required this.productid,
@@ -21,6 +22,7 @@ class ProductModel {
     required this.publishingYear,
     required this.sizeBook,
     required this.weightBook,
+    required this.updateBook,
   });
 }
 
@@ -36,6 +38,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2021",
     sizeBook: "13 x 20.5 cm",
     weightBook: "250g",
+    updateBook: DateTime(2023, 5, 15, 14, 30),
   ),
   ProductModel(
     productid: "2",
@@ -48,6 +51,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2020",
     sizeBook: "14 x 21 cm",
     weightBook: "300g",
+    updateBook: DateTime(2024, 5, 15, 14, 30),
   ),
   ProductModel(
     productid: "3",
@@ -60,6 +64,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2022",
     sizeBook: "15 x 22 cm",
     weightBook: "350g",
+    updateBook: DateTime(2024, 12, 15, 14, 30),
   ),
   ProductModel(
     productid: "4",
@@ -72,6 +77,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2019",
     sizeBook: "13 x 20.5 cm",
     weightBook: "280g",
+    updateBook: DateTime(2023, 5, 30, 14, 30),
   ),
   ProductModel(
     productid: "5",
@@ -84,6 +90,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2021",
     sizeBook: "18 x 25 cm",
     weightBook: "200g",
+    updateBook: DateTime(2023, 5, 20, 14, 30),
   ),
   ProductModel(
     productid: "6",
@@ -97,6 +104,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2023",
     sizeBook: "14 x 21 cm",
     weightBook: "320g",
+    updateBook: DateTime(2023, 9, 15, 14, 30),
   ),
   ProductModel(
     productid: "7",
@@ -110,6 +118,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2023",
     sizeBook: "14 x 21 cm",
     weightBook: "320g",
+    updateBook: DateTime(2023, 5, 29, 14, 30),
   ),
   ProductModel(
     productid: "8",
@@ -123,6 +132,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2023",
     sizeBook: "14 x 21 cm",
     weightBook: "320g",
+    updateBook: DateTime(2023, 1, 15, 14, 30),
   ),
   ProductModel(
     productid: "9",
@@ -136,6 +146,7 @@ List<ProductModel> productsGrid = [
     publishingYear: "2023",
     sizeBook: "14 x 21 cm",
     weightBook: "320g",
+    updateBook: DateTime(2024, 5, 30, 14, 30),
   ),
   ProductModel(
     productid: "10",
@@ -149,5 +160,6 @@ List<ProductModel> productsGrid = [
     publishingYear: "2023",
     sizeBook: "14 x 21 cm",
     weightBook: "320g",
+    updateBook: DateTime(2023, 1, 1, 14, 30),
   ),
 ];

@@ -4,6 +4,7 @@ import 'package:one_store/page/product/productdetailscreen.dart';
 import 'package:one_store/data/model/category_book_model.dart';
 import 'categorybooklistview.dart';
 import 'productgridlistbook.dart';
+import 'filter.dart';
 
 class BookListScreen extends StatefulWidget {
   final String categoryId;
@@ -17,6 +18,7 @@ class BookListScreen extends StatefulWidget {
 class _BookListScreenState extends State<BookListScreen> {
   List<ProductModel> filteredProducts = [];
   String selectedCategoryId = '';
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -44,6 +46,13 @@ class _BookListScreenState extends State<BookListScreen> {
       ...categoryBookGrid,
     ];
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: Filter(
+        onFilterSelected: (int selectedFilter) {
+          // Xử lý lựa chọn bộ lọc ở đây
+          // Ví dụ: filterProducts(selectedFilter.toString());
+        },
+      ),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -106,6 +115,7 @@ class _BookListScreenState extends State<BookListScreen> {
                         icon: const Icon(Icons.tune, color: Colors.black),
                         onPressed: () {
                           // Hành động khi nút được nhấn
+                          _scaffoldKey.currentState?.openEndDrawer();
                         },
                       ),
                     ],
