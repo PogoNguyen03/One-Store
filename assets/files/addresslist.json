@@ -1,0 +1,18 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "userName": "Bisbis",
+            "phoneNumber": "0708257865",
+            "address": "123 Thành Thái Phường 6 Quận 10 TP Hồ Chí Minh",
+            "isDefault": true
+        },
+        {
+            "id": 2,
+            "userName": "Phụng",
+            "phoneNumber": "0908257865",
+            "address": "456 Nguyễn Trãi Phường 2 Quận 5 TP Hồ Chí Minh",
+            "isDefault": false
+        }
+    ]
+}
