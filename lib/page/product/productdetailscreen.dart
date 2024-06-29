@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
+import 'package:one_store/page/product/favoritebutton.dart';
 
 import '../../data/model/category_book_model.dart';
 import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
@@ -16,37 +17,37 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   int _selectedIndex = 0;
   // Biến lưu trạng thái yêu thích
-  bool isFavorite = false;
+  // bool isFavorite = false;
   // Danh sách các sản phẩm yêu thích
   // List<ProductModel> favoriteProducts = [];
 
   // Hàm chuyển đổi trạng thái yêu thích
-  void toggleFavorite() {
-    setState(() {
-      isFavorite = !isFavorite;
-      if (isFavorite) {
-        // Thêm sản phẩm vào danh sách yêu thích
-        favoriteProducts.add(widget.product);
-      } else {
-        // Xóa sản phẩm khỏi danh sách yêu thích
-        favoriteProducts.remove(widget.product);
-      }
-    });
-  }
+  // void toggleFavorite() {
+  //   setState(() {
+  //     isFavorite = !isFavorite;
+  //     if (isFavorite) {
+  //       // Thêm sản phẩm vào danh sách yêu thích
+  //       favoriteProducts.add(widget.product);
+  //     } else {
+  //       // Xóa sản phẩm khỏi danh sách yêu thích
+  //       favoriteProducts.remove(widget.product);
+  //     }
+  //   });
+  // }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    // Thêm hành vi khi mỗi mục được nhấn, nếu cần
-  }
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  //   // Thêm hành vi khi mỗi mục được nhấn, nếu cần
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    // Kiểm tra nếu sản phẩm này đã được thêm vào danh sách yêu thích
-    isFavorite = favoriteProducts.contains(widget.product);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Kiểm tra nếu sản phẩm này đã được thêm vào danh sách yêu thích
+  //   isFavorite = favoriteProducts.contains(widget.product);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -153,21 +154,7 @@ class _ProductDetailState extends State<ProductDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Color(0xFFEC8F5E),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: IconButton(
-                  // Thay đổi biểu tượng yêu thích dựa trên trạng thái
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border_rounded,
-                    color: Colors.white,
-                  ),
-                  onPressed: toggleFavorite,
-                ),
-              ),
+              FavoriteButton(product: widget.product),
               Container(
                 width: 200,
                 height: 47,

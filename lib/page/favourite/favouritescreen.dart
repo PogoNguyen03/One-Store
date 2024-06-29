@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
+import 'favoriteservice.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  // FavoritesScreen({super.key, required this.products});
-
+class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
+
+  @override
+  _FavoritesScreenState createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  List<ProductModel> favoriteProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteProducts();
+  }
+
+  void _loadFavoriteProducts() async {
+    List<String> favoriteIds = await FavoriteService.loadFavoriteList();
+    setState(() {
+      favoriteProducts = favoriteProducts
+          .where((product) => favoriteIds.contains(product.productid))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Yêu Thích'),
-      // ),
-      // body:
       body: SafeArea(
         child: Container(
           width: double.infinity,
