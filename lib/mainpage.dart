@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:one_store/page/favourite/favouritescreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
+import 'package:one_store/page/search/searchscreen.dart';
 
 class Mainpage extends StatefulWidget {
   const Mainpage({super.key});
@@ -29,6 +30,7 @@ class _MainpageState extends State<Mainpage> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     FavoritesScreen(),
+    SearchScreen()
     // AccountWidget(), // Uncomment nếu bạn có trang này
   ];
 

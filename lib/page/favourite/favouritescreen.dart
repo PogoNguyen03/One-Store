@@ -61,7 +61,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 right: 0,
                 bottom: 0,
                 child: favoriteProducts.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Text(
                           "Chưa có sản phẩm yêu thích",
                           style: TextStyle(
