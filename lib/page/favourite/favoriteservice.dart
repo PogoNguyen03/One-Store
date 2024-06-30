@@ -1,35 +1,20 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class FavoriteService {
+  static const String favoriteKeyPrefix = 'favorite_';
+
   static Future<void> saveFavoriteStatus(
       String productId, bool isFavorite) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(productId, isFavorite);
-    await _updateFavoriteList(productId, isFavorite);
+    prefs.setBool(_getFavoriteKey(productId), isFavorite);
   }
 
   static Future<bool> loadFavoriteStatus(String productId) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(productId) ?? false;
+    return prefs.getBool(_getFavoriteKey(productId)) ?? false;
   }
 
-  static Future<void> _updateFavoriteList(
-      String productId, bool isFavorite) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> favoriteList = prefs.getStringList('favoriteList') ?? [];
-
-    if (isFavorite) {
-      favoriteList.add(productId);
-    } else {
-      favoriteList.remove(productId);
-    }
-
-    prefs.setStringList('favoriteList', favoriteList);
-  }
-
-  static Future<List<String>> loadFavoriteList() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList('favoriteList') ?? [];
+  static String _getFavoriteKey(String productId) {
+    return '$favoriteKeyPrefix$productId';
   }
 }
