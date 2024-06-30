@@ -11,13 +11,15 @@ class DatabaseHelper {
   //Now we must create our user table into our sqlite db
 
   String user =
-      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE, usrPassword TEXT)";
+      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE, usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER)";
 
   //We are done in this section
 
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
+    // Xóa cơ sở dữ liệu hiện tại (nếu cần)
+    // await deleteDatabase(path);gâ
 
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(user);
@@ -50,6 +52,18 @@ class DatabaseHelper {
     final Database db = await initDB();
 
     return db.insert('users', user.toMap());
+  }
+
+  Future<Users?> getUserByName(String userName) async {
+    final Database db = await initDB();
+
+    var result =
+        await db.rawQuery("SELECT * FROM users WHERE usrName = '$userName'");
+    if (result.isNotEmpty) {
+      return Users.fromMap(result.first);
+    } else {
+      return null;
+    }
   }
 
   // //Search Method

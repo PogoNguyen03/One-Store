@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/data/model/users.dart';
 import 'package:one_store/page/favourite/favouritescreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:one_store/page/search/searchscreen.dart';
+import 'package:one_store/page/setting/settingScreen.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({super.key});
+  final Users user; // Thêm trường user
+
+  const Mainpage({Key? key, required this.user}) : super(key: key);
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -27,12 +31,13 @@ class _MainpageState extends State<Mainpage> {
     super.dispose();
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    FavoritesScreen(),
-    SearchScreen()
-    // AccountWidget(), // Uncomment nếu bạn có trang này
-  ];
+  static List<Widget> _widgetOptions(Users user) => <Widget>[
+        HomeScreen(),
+        FavoritesScreen(),
+        SearchScreen(),
+        SettingScreen(user: user), // Truyền user vào SettingScreen
+        // AccountWidget(), // Uncomment nếu bạn có trang này
+      ];
 
   final List<Map<String, dynamic>> navItems = [
     {'icon': Icons.home_filled, 'label': 'Home'},
@@ -52,7 +57,7 @@ class _MainpageState extends State<Mainpage> {
             _selectedIndex = index;
           });
         },
-        children: _widgetOptions,
+        children: _widgetOptions(widget.user), // Truyền user vào _widgetOptions
       ),
       bottomNavigationBar: CircleNavBar(
         onTap: (index) {

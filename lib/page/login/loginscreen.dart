@@ -18,45 +18,46 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //We need two text editing controller
-
-  //TextEditing controller to control the text when we enter into it
   final username = TextEditingController();
   final password = TextEditingController();
-
-  //A bool variable for show and hide password
   bool isVisible = false;
-
-  //Here is our bool variable
   bool isLoginTrue = false;
-
   final db = DatabaseHelper();
 
-  //Now we should call this function in login button
-  login() async {
+  void login() async {
     var response = await db
         .login(Users(usrName: username.text, usrPassword: password.text));
-    if (response == true) {
-      //If login is correct, then goto notes
-      if (!mounted) return;
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Mainpage()));
+    if (response) {
+      // Lấy thông tin user từ SQLite
+      Users? user = await db.getUserByName(username.text);
+      if (user != null) {
+        // Điều hướng đến Mainpage và truyền user
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Mainpage(user: user)),
+        );
+      } else {
+        // Xử lý trường hợp không tìm thấy user
+        setState(() {
+          isLoginTrue = true;
+        });
+        showAlertDialog(context, "Tài khoản không tồn tại");
+      }
     } else {
-      //If not, true the bool value to show error message
       setState(() {
         isLoginTrue = true;
       });
-      showAlertDialog(context);
+      showAlertDialog(context, "Tài khoản hoặc mật khẩu không đúng");
     }
   }
 
-  void showAlertDialog(BuildContext context) {
+  void showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Lỗi đăng nhập"),
-          content: Text("Tài khoản hoặc mật khẩu không đúng"),
+          content: Text(message),
           actions: [
             TextButton(
               child: Text("OK"),
@@ -70,8 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  //We have to create global key for our form
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -282,9 +283,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       height: 60,
                       width: MediaQuery.of(context).size.width * .9,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xFFEC8F5E)),
                       child: ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {

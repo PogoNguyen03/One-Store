@@ -17,6 +17,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final username = TextEditingController();
+  final phoneNumber = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
 
@@ -153,6 +154,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             border: InputBorder.none,
                             prefixIcon: Icon(
                               Icons.person,
+                              color: Color(0xFFEC8F5E),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                          ),
+                          border: Border.all(
+                            width: 1,
+                            color: const Color(0xFFEC8F5E),
+                          ),
+                        ),
+                        child: TextFormField(
+                          controller: phoneNumber,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Không được bỏ trống số điện thoại";
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            hintText: "Số điện thoại",
+                            hintStyle: TextStyle(
+                              color: Color(0xFFEC8F5E), // Đặt màu cho hint text
+                            ),
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.phone,
                               color: Color(0xFFEC8F5E),
                             ),
                           ),
