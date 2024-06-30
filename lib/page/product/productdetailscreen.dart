@@ -115,11 +115,15 @@ class _ProductDetailState extends State<ProductDetail> {
                     children: <Widget>[
                       const Padding(padding: EdgeInsets.only(top: 200)),
                       Center(
-                        child: Image.asset(
-                          "assets/image/book/${widget.product.imageUrl}",
-                          fit: BoxFit.cover,
-                          height: 250,
-                          width: 200,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Điều chỉnh bán kính bo góc
+                          child: Image.asset(
+                            "assets/image/book/${widget.product.imageUrl}",
+                            fit: BoxFit.cover,
+                            height: 250,
+                            width: 200,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 30),

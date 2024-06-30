@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
 import 'favoriteservice.dart';
+import 'package:one_store/globals.dart';
+
+import '../product/productdetailscreen.dart'; // Import tệp tin toàn cục
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -96,6 +99,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           itemBuilder: (context, index) {
                             final product = favoriteProducts[index];
                             return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetail(product),
+                                  ),
+                                );
+                              },
                               child: GridTile(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
