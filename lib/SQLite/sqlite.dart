@@ -66,6 +66,35 @@ class DatabaseHelper {
     }
   }
 
+  // Xác nhận số điện thoại và tạo mật khẩu mới
+  Future<bool> confirmPhoneNumber(String phoneNumber) async {
+    final Database db = await initDB();
+
+    var result = await db
+        .rawQuery("SELECT * FROM users WHERE phoneNumber = '$phoneNumber'");
+    return result.isNotEmpty;
+  }
+
+  Future<int> updatePassword(String phoneNumber, String newPassword) async {
+    final Database db = await initDB();
+
+    return db.update('users', {'usrPassword': newPassword},
+        where: 'phoneNumber = ?', whereArgs: [phoneNumber]);
+  }
+
+  Future<Users?> getUserByUsername(String username) async {
+    final Database db = await initDB();
+
+    var result =
+        await db.rawQuery("SELECT * FROM users WHERE usrName = ?", [username]);
+
+    if (result.isNotEmpty) {
+      return Users.fromMap(result.first);
+    } else {
+      return null;
+    }
+  }
+
   // //Search Method
   // Future<List<NoteModel>> searchNotes(String keyword) async {
   //   final Database db = await initDB();

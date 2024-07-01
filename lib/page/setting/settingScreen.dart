@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:one_store/mainpage.dart';
+import 'package:one_store/page/login/loginscreen.dart';
 // import 'package:one_store/page/setting/addressScreen.dart';
 import '../../data/model/users.dart';
 import '../setting/profileUserScreen.dart';
 import './changePasswordScreen.dart';
-import 'addressScreen.dart';
+// import 'addressScreen.dart';
 
 // ignore: camel_case_types
 class SettingScreen extends StatefulWidget {
@@ -151,10 +152,10 @@ class _settingScreenState extends State<SettingScreen> {
                     const SizedBox(height: 30), // Adjust the height as needed
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AddressScreen()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const AddressScreen()));
                       },
                       child: const Row(
                         children: [
@@ -203,8 +204,10 @@ class _settingScreenState extends State<SettingScreen> {
                     const SizedBox(height: 80), // Adjust the height as needed
                     InkWell(
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => const AddressScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
                       },
                       child: const Row(
                         children: [

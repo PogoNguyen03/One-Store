@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:one_store/mainpage.dart';
+import 'package:one_store/page/login/forgetpass.dart';
 import 'package:one_store/page/register/registerscreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -261,11 +262,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: InkWell(
                             onTap: () {
                               // Điều hướng đến trang "Tôi quên mật khẩu"
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => ForgotPasswordPage()),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ForgotPasswordScreen()),
+                              );
                             },
                             child: const Text(
                               'Quên mật khẩu?',
