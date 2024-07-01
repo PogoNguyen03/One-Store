@@ -11,7 +11,7 @@ class DatabaseHelper {
   //Now we must create our user table into our sqlite db
 
   String user =
-      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE, usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER)";
+      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE,fullname TEXT UNIQUE,usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER)";
 
   //We are done in this section
 
@@ -19,7 +19,7 @@ class DatabaseHelper {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
     // Xóa cơ sở dữ liệu hiện tại (nếu cần)
-    // await deleteDatabase(path);gâ
+    // await deleteDatabase(path);
 
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(user);

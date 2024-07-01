@@ -17,6 +17,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final username = TextEditingController();
+  final fullname = TextEditingController();
   final phoneNumber = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
@@ -139,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         child: TextFormField(
-                          controller: username,
+                          controller: fullname,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Không được bỏ trống họ tên";
@@ -148,6 +149,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                           decoration: const InputDecoration(
                             hintText: "Họ tên",
+                            hintStyle: TextStyle(
+                              color: Color(0xFFEC8F5E), // Đặt màu cho hint text
+                            ),
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: Color(0xFFEC8F5E),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                          ),
+                          border: Border.all(
+                            width: 1,
+                            color: const Color(0xFFEC8F5E),
+                          ),
+                        ),
+                        child: TextFormField(
+                          controller: username,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Không được bỏ trống tên tài khoản";
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            hintText: "Tên tài khoản",
                             hintStyle: TextStyle(
                               color: Color(0xFFEC8F5E), // Đặt màu cho hint text
                             ),
@@ -316,7 +355,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 db
                                     .signup(Users(
                                         usrName: username.text,
-                                        usrPassword: password.text))
+                                        fullname: fullname.text,
+                                        usrPassword: password.text,
+                                        phoneNumber: phoneNumber.text))
                                     .whenComplete(() {
                                   //After success user creation go to login screen
                                   Navigator.push(
