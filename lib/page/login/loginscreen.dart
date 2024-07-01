@@ -1,18 +1,13 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:one_store/mainpage.dart';
-import 'package:one_store/page/login/forgetpass.dart';
-import 'package:one_store/page/register/registerscreen.dart';
-import 'package:one_store/page/home/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:one_store/page/register/registerscreen.dart';
+import 'package:one_store/page/login/forgetpass.dart';
+import 'package:one_store/mainpage.dart';
+import 'package:one_store/data/model/users.dart';
 import 'package:one_store/SQLite/sqlite.dart';
-import '../../data/model/users.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -24,11 +19,40 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isVisible = false;
   bool isLoginTrue = false;
   final db = DatabaseHelper();
+  bool isRememberMe = false; // Biến để lưu trạng thái ghi nhớ mật khẩu
+
+  @override
+  void initState() {
+    super.initState();
+    // Kiểm tra và load thông tin đã lưu
+    loadSavedCredentials();
+  }
+
+  void loadSavedCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedUsername = prefs.getString('username');
+    String? savedPassword = prefs.getString('password');
+
+    if (savedUsername != null && savedPassword != null) {
+      setState(() {
+        username.text = savedUsername;
+        password.text = savedPassword;
+        isRememberMe = true;
+      });
+    }
+  }
 
   void login() async {
     var response = await db
         .login(Users(usrName: username.text, usrPassword: password.text));
     if (response) {
+      // Lưu thông tin tài khoản nếu người dùng chọn "Nhớ tôi"
+      if (isRememberMe) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('username', username.text);
+        prefs.setString('password', password.text);
+      }
+
       // Lấy thông tin user từ SQLite
       Users? user = await db.getUserByName(username.text);
       if (user != null) {
@@ -102,7 +126,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: <Widget>[
                           ElevatedButton(
                             onPressed: () {
-                              // Xử lý khi nút đăng nhập được nhấn
+                              if (formKey.currentState!.validate()) {
+                                //Login method will be here
+                                login();
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               fixedSize: Size(130, 20), // Đặt kích thước 100x50
@@ -118,10 +145,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               // Xử lý khi nút đăng ký được nhấn
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegisterScreen(),
-                                  ));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterScreen()),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               fixedSize: Size(130, 20), // Đặt kích thước 100x50
@@ -233,20 +260,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30.0,
-                              top:
-                                  15.0), // Thêm padding xung quanh radio button
-                          // child: Radio(
-                          //   value: true,
-                          //   groupValue: isRememberMe,
-                          //   onChanged: (bool? value) {
-                          //     setState(() {
-                          //       isRememberMe = value;
-                          //     });
-                          //   },
-                          //   activeColor: const Color(0xFFEC8F5E),
-                          // ),
+                          padding: const EdgeInsets.only(left: 30, top: 15),
+                          child: Checkbox(
+                            value: isRememberMe,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isRememberMe = value ?? false;
+                              });
+                            },
+                            activeColor: const Color(0xFFEC8F5E),
+                          ),
                         ),
                         const Padding(
                           padding: EdgeInsets.only(
@@ -290,9 +313,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (formKey.currentState!.validate()) {
                             //Login method will be here
                             login();
-
-                            //Now we have a response from our sqlite method
-                            //We are going to create a user
                           }
                         },
                         style: ButtonStyle(
