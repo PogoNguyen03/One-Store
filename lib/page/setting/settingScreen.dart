@@ -5,6 +5,7 @@ import 'package:one_store/mainpage.dart';
 import '../../data/model/users.dart';
 import '../setting/profileUserScreen.dart';
 import './changePasswordScreen.dart';
+import 'addressScreen.dart';
 
 // ignore: camel_case_types
 class SettingScreen extends StatefulWidget {
@@ -110,7 +111,7 @@ class _settingScreenState extends State<SettingScreen> {
                             width: 36,
                           ),
                           Text(
-                            "Chỉnh sửa thông tin cá nhân",
+                            "Thông tin cá nhân",
                             style: TextStyle(fontSize: 16),
                           ),
                         ],
@@ -119,12 +120,14 @@ class _settingScreenState extends State<SettingScreen> {
                     const SizedBox(height: 30), // Adjust the height as needed
                     InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const changePasswordScreen(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangePasswordScreen(
+                              user: widget.user,
+                            ),
+                          ),
+                        );
                       },
                       child: const Row(
                         children: [
@@ -148,8 +151,10 @@ class _settingScreenState extends State<SettingScreen> {
                     const SizedBox(height: 30), // Adjust the height as needed
                     InkWell(
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => const AddressScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddressScreen()));
                       },
                       child: const Row(
                         children: [
