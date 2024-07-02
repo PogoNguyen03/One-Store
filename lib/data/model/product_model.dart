@@ -11,6 +11,7 @@ class ProductModel {
       sizeBook,
       weightBook;
   double price;
+  double quantity;
   DateTime updateBook;
 
   ProductModel({
@@ -18,6 +19,7 @@ class ProductModel {
     required this.imageUrl,
     required this.name,
     required this.price,
+    this.quantity = 1,
     required this.categoryItem,
     required this.categoryBook,
     required this.authorBook,

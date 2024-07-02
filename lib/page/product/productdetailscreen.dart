@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/favoritebutton.dart';
 
@@ -16,11 +17,22 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   int _selectedIndex = 0;
+  int _cartItemCount = 0;
   // Biến lưu trạng thái yêu thích
   // bool isFavorite = false;
   // Danh sách các sản phẩm yêu thích
   // List<ProductModel> favoriteProducts = [];
-
+  DatabaseHelper _dbHelper = DatabaseHelper(); // Thể hiện của DatabaseHelper
+  void addToCart(ProductModel product) {
+    // Example usage
+    _dbHelper.addToCart(product, 1).then((value) {
+      // Xử lý sau khi thêm vào giỏ hàng thành công (nếu cần)
+      print('Added to cart');
+    }).catchError((error) {
+      // Xử lý khi có lỗi xảy ra (nếu cần)
+      print('Error adding to cart: $error');
+    });
+  }
   // Hàm chuyển đổi trạng thái yêu thích
   // void toggleFavorite() {
   //   setState(() {
@@ -163,7 +175,10 @@ class _ProductDetailState extends State<ProductDetail> {
                 width: 200,
                 height: 47,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addToCart(widget
+                        .product); // Gọi hàm khi nhấn nút "Thêm vào giỏ hàng"
+                  },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

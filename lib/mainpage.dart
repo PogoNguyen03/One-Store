@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/users.dart';
+import 'package:one_store/page/cart/cartscreen.dart';
 import 'package:one_store/page/favourite/favouritescreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
@@ -35,6 +36,7 @@ class _MainpageState extends State<Mainpage> {
         HomeScreen(),
         FavoritesScreen(),
         SearchScreen(),
+        CartScreen(),
         SettingScreen(user: user), // Truyền user vào SettingScreen
         // AccountWidget(), // Uncomment nếu bạn có trang này
       ];

@@ -1,3 +1,4 @@
+import 'package:one_store/data/model/product_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:one_store/data/model/users.dart';
@@ -13,19 +14,36 @@ class DatabaseHelper {
   String user =
       "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE,fullname TEXT UNIQUE,usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER, usrImage TEXT)";
 
+  String cartItemsTable = '''
+  CREATE TABLE IF NOT EXISTS product_model (
+    cart_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    quantity INTEGER NOT NULL,
+    categoryItem TEXT NOT NULL,
+    categoryBook TEXT NOT NULL,
+    authorBook TEXT NOT NULL,
+    publishingYear TEXT NOT NULL,
+    sizeBook TEXT NOT NULL,
+    weightBook TEXT NOT NULL,
+    updateBook TEXT NOT NULL
+  )
+''';
+
   //We are done in this section
 
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
-    // final path =
-    //     '/H:\file_study\LapTrinhMobileNangCao\DoAn\One-Store/custom/path/notes.db';
+
     // Xóa cơ sở dữ liệu hiện tại (nếu cần)
     // await deleteDatabase(path);
 
     return openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(user);
-      // await db.execute(noteTable);
+      await db.execute(user); // Tạo bảng users
+      await db
+          .execute(cartItemsTable); // Tạo bảng product_model (nếu chưa tồn tại)
     });
   }
 
@@ -129,6 +147,70 @@ class DatabaseHelper {
     } else {
       return null;
     }
+  }
+
+  // Thêm sản phẩm vào giỏ hàng
+  Future<int> addToCart(ProductModel product, int quantity) async {
+    final db = await initDB();
+
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    var cartItem = await db.rawQuery(
+        "SELECT * FROM product_model WHERE product_id = '${product.productid}'");
+
+    if (cartItem.isNotEmpty) {
+      // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+      int newQuantity =
+          int.parse(cartItem.first['quantity'].toString()) + quantity;
+
+      return await db.rawUpdate(
+          "UPDATE product_model SET quantity = ? WHERE product_id = ?",
+          [newQuantity, product.productid]);
+    } else {
+      // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
+      return await db.insert('product_model', {
+        'product_id': product.productid,
+        'name': product.name,
+        'quantity': quantity,
+        'price': product.price,
+        'categoryItem': product.categoryItem,
+        'categoryBook': product.categoryBook,
+        'authorBook': product.authorBook,
+        'publishingYear': product.publishingYear,
+        'sizeBook': product.sizeBook,
+        'weightBook': product.weightBook,
+        'updateBook':
+            product.updateBook.toIso8601String(), // Convert DateTime to string
+      });
+    }
+  }
+
+  // Xóa sản phẩm khỏi giỏ hàng
+  Future<int> removeFromCart(String productId) async {
+    final db = await initDB();
+    return await db.delete('product_model',
+        where: 'product_id = ?', whereArgs: [productId]);
+  }
+
+  // Cập nhật số lượng sản phẩm trong giỏ hàng
+  Future<int> updateCartItemQuantity(String productId, int newQuantity) async {
+    final db = await initDB();
+    return await db.rawUpdate(
+        "UPDATE product_model SET quantity = ? WHERE product_id = ?",
+        [newQuantity, productId]);
+  }
+
+  // Lấy danh sách sản phẩm trong giỏ hàng
+  Future<List<Map<String, dynamic>>> getCartItems() async {
+    final db = await initDB();
+    return await db.query('product_model');
+  }
+
+  // Tính tổng số tiền của giỏ hàng
+  Future<double> calculateTotalAmount() async {
+    final db = await initDB();
+    var result = await db
+        .rawQuery("SELECT SUM(quantity * price) AS total FROM cart_items");
+    return (result.first['total'] ?? 0.0) as double;
   }
 
   // //Search Method

@@ -399,12 +399,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    isLoginTrue
-                        ? const Text(
-                            "Tài khoản hoặc mật khẩu không đúng",
-                            style: TextStyle(color: Colors.red),
-                          )
-                        : const SizedBox(),
                   ],
                 ),
               ),
