@@ -11,13 +11,15 @@ class DatabaseHelper {
   //Now we must create our user table into our sqlite db
 
   String user =
-      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE,fullname TEXT UNIQUE,usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER)";
+      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE,fullname TEXT UNIQUE,usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER, usrImage TEXT)";
 
   //We are done in this section
 
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
+    // final path =
+    //     '/H:\file_study\LapTrinhMobileNangCao\DoAn\One-Store/custom/path/notes.db';
     // Xóa cơ sở dữ liệu hiện tại (nếu cần)
     // await deleteDatabase(path);
 
@@ -75,6 +77,7 @@ class DatabaseHelper {
     return result.isNotEmpty;
   }
 
+  //thay đổi mật khẩu trong trong trang đăng nhập
   Future<int> updatePassword(String phoneNumber, String newPassword) async {
     final Database db = await initDB();
 
@@ -82,6 +85,7 @@ class DatabaseHelper {
         where: 'phoneNumber = ?', whereArgs: [phoneNumber]);
   }
 
+  // gọi tên người dùng dùng
   Future<Users?> getUserByUsername(String username) async {
     final Database db = await initDB();
 
@@ -90,6 +94,38 @@ class DatabaseHelper {
 
     if (result.isNotEmpty) {
       return Users.fromMap(result.first);
+    } else {
+      return null;
+    }
+  }
+
+  //cập nhật dữ liệu trong profile người dùng
+  Future<int> updateUser(Users user) async {
+    final Database db = await initDB();
+    return await db.update(
+      'users',
+      user.toMap(),
+      where: 'usrId = ?',
+      whereArgs: [user.usrId],
+    );
+  }
+
+  //cập nhật hình ảnh
+  Future<int> saveUserImage(int userId, String imagePath) async {
+    final Database db = await initDB();
+
+    return db.update('users', {'usrImage': imagePath},
+        where: 'usrId = ?', whereArgs: [userId]);
+  }
+
+  Future<String?> getUserImage(int userId) async {
+    final Database db = await initDB();
+
+    var result = await db
+        .rawQuery("SELECT usrImage FROM users WHERE usrId = ?", [userId]);
+
+    if (result.isNotEmpty) {
+      return result.first['usrImage'] as String?;
     } else {
       return null;
     }

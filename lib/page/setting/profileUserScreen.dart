@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/users.dart';
+import 'dart:io'; // Thêm thư viện này để làm việc với File
+import 'package:image_picker/image_picker.dart';
 
 class ProfileUserScreen extends StatefulWidget {
   final Users user; // Nhận user từ các tham số của widget
@@ -20,6 +23,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
   bool isEditing = false;
   List<String> genders = ['Nam', 'Nữ'];
   String selectedGender = 'Nam'; // Mặc định là 'Nam'
+  File? _imageFile; // Biến lưu trữ file hình ảnh đã chọn
 
   @override
   void initState() {
@@ -50,7 +54,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
     super.dispose();
   }
 
-  void saveChanges() {
+  Future<void> saveChanges() async {
     setState(() {
       widget.user.fullname = fullnameController.text;
       widget.user.phoneNumber = phoneNumberController.text;
@@ -58,11 +62,19 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
       widget.user.usrBirday = DateTime.tryParse(birthdayController.text);
       widget.user.isDefault = genderController.text.toLowerCase() == 'nữ';
 
-      isEditing = false;
+      // isEditing = false;
+      if (_imageFile != null) {
+        widget.user.usrImage = _imageFile!.path; // Cập nhật đường dẫn ảnh
+      }
     });
 
     // Thêm các xử lý lưu dữ liệu vào cơ sở dữ liệu hoặc API tại đây
-    // ...
+    // Gọi phương thức updateUser để lưu dữ liệu vào cơ sở dữ liệu
+    await DatabaseHelper().updateUser(widget.user);
+
+    setState(() {
+      isEditing = false;
+    });
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Thông tin đã được cập nhật')),
@@ -80,6 +92,25 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
       setState(() {
         birthdayController.text = picked.toIso8601String().split('T').first;
       });
+    }
+    if (picked != null) {
+      setState(() {
+        birthdayController.text = picked.toIso8601String().split('T').first;
+      });
+    }
+  }
+
+  // Hàm xử lý khi người dùng chọn hình ảnh từ thiết bị
+  void _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    } else {
+      // Xử lý khi người dùng không chọn hình ảnh
     }
   }
 
@@ -154,32 +185,52 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Container(
-                          width:
-                              80, // Chiều rộng của Container lớn hơn hình ảnh
-                          height:
-                              80, // Chiều cao của Container lớn hơn hình ảnh
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.blue, // Màu viền
-                              width: 3.0, // Độ rộng viền
+                        GestureDetector(
+                          onTap: () {
+                            if (isEditing) {
+                              _pickImage(); // Chọn hình ảnh từ thư viện khi đang chỉnh sửa
+                            }
+                          },
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 3.0,
+                              ),
                             ),
-                          ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              "assets/image/image_user.png",
-                              width: 70,
-                              height: 70,
-                              fit: BoxFit.cover,
+                            child: ClipOval(
+                              child: _imageFile != null
+                                  ? Image.file(_imageFile!, fit: BoxFit.cover)
+                                  : widget.user.usrImage != null
+                                      ? Image.file(File(widget.user.usrImage!),
+                                          fit: BoxFit.cover)
+                                      : Image.asset(
+                                          "assets/images/icon_user.png", // Đường dẫn đến biểu tượng người dùng trong assets của bạn
+                                          width: 70,
+                                          height: 70,
+                                          fit: BoxFit.cover,
+                                        ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 10),
-                        const Text(
-                          "Chỉnh sửa ảnh",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              isEditing =
+                                  true; // Khi nhấn vào nút thay đổi, đặt isEditing thành true
+                            });
+                          },
+                          child: const Text(
+                            "Chỉnh sửa ảnh",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 30),
                         Padding(
