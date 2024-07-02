@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/page/product/productdetailscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
@@ -91,6 +92,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   return GestureDetector(
                                     onTap: () {
                                       // Xử lý khi sản phẩm được chọn
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductDetail(product),
+                                        ),
+                                      );
                                     },
                                     child: GridTile(
                                       child: Column(

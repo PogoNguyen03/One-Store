@@ -19,6 +19,7 @@ class _BookListScreenState extends State<BookListScreen> {
   List<ProductModel> filteredProducts = [];
   String selectedCategoryId = '';
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  bool noProductsFound = false;
 
   @override
   void initState() {
@@ -39,6 +40,12 @@ class _BookListScreenState extends State<BookListScreen> {
     });
   }
 
+  void updateFilter(List<ProductModel> newProducts) {
+    setState(() {
+      filteredProducts = newProducts;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     List<CategoryBookModel> categories = [
@@ -48,9 +55,12 @@ class _BookListScreenState extends State<BookListScreen> {
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: Filter(
-        onFilterSelected: (int selectedFilter) {
-          // Xử lý lựa chọn bộ lọc ở đây
-          // Ví dụ: filterProducts(selectedFilter.toString());
+        productsGrid: productsGrid, // Your original list of products
+        onFilterSelected: (filteredList, noProducts) {
+          setState(() {
+            filteredProducts = filteredList;
+            noProductsFound = noProducts;
+          });
         },
       ),
       body: SafeArea(
@@ -127,7 +137,14 @@ class _BookListScreenState extends State<BookListScreen> {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                child: ProductGrid(products: filteredProducts),
+                child: noProductsFound
+                    ? const Center(
+                        child: Text(
+                          "Không tìm thấy sản phẩm",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    : ProductGrid(products: filteredProducts),
               ),
             ],
           ),

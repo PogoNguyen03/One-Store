@@ -1,14 +1,16 @@
+import 'dart:ffi';
+
 class ProductModel {
   String productid,
       imageUrl,
       name,
-      price,
       categoryItem,
       categoryBook,
       authorBook,
       publishingYear,
       sizeBook,
       weightBook;
+  double price;
   DateTime updateBook;
 
   ProductModel({
@@ -31,7 +33,7 @@ List<ProductModel> productsGrid = [
     productid: "1",
     imageUrl: "doithoaivoinhungnguoitienphong.png",
     name: "Đối thoại với những người tiên phong",
-    price: "114000",
+    price: 114000,
     categoryItem: "2",
     categoryBook: "3",
     authorBook: "Nhiều tác giả",
@@ -44,7 +46,7 @@ List<ProductModel> productsGrid = [
     productid: "2",
     imageUrl: "chiasetutraitim-bia.png",
     name: "Chia sẻ từ trái tim",
-    price: "134000",
+    price: 134000,
     categoryItem: "2",
     categoryBook: "1",
     authorBook: "Nhiều tác giả",
@@ -57,7 +59,7 @@ List<ProductModel> productsGrid = [
     productid: "3",
     imageUrl: "NFT.png",
     name: "NFT - Đáp Án Mới Cho Sự Thịnh Vượng",
-    price: "70000",
+    price: 70000,
     categoryItem: "2",
     categoryBook: "6",
     authorBook: "Nhiều tác giả",
@@ -70,7 +72,7 @@ List<ProductModel> productsGrid = [
     productid: "4",
     imageUrl: "lamchuthitruongnganh.png",
     name: "Làm chủ thị trường ngách",
-    price: "102000",
+    price: 102000,
     categoryItem: "2",
     categoryBook: "3",
     authorBook: "Nhiều tác giả",
@@ -83,7 +85,7 @@ List<ProductModel> productsGrid = [
     productid: "5",
     imageUrl: "frame-1.png",
     name: "Phát Triển Trí Não Cho Trẻ Qua Tô-Dán Và Nối Hình - Khủng Long",
-    price: "41000",
+    price: 41000,
     categoryItem: "2",
     categoryBook: "5",
     authorBook: "Nhiều tác giả",
@@ -97,7 +99,7 @@ List<ProductModel> productsGrid = [
     imageUrl: "bia_hanh-trinh-thai-giao-theo-chuyen-gia_2_1_1.png",
     name:
         "Hành Trình Thai Giáo 280 Ngày - Mỗi Ngày Đọc Một Trang (Tái Bản 2023)",
-    price: "67000",
+    price: 67000,
     categoryItem: "2",
     categoryBook: "5",
     authorBook: "Nhiều tác giả",
@@ -111,7 +113,7 @@ List<ProductModel> productsGrid = [
     imageUrl: "bia_hanh-trinh-thai-giao-theo-chuyen-gia_2_1_1.png",
     name:
         "Hành Trình Thai Giáo 280 Ngày - Mỗi Ngày Đọc Một Trang (Tái Bản 2023)",
-    price: "67000",
+    price: 67000,
     categoryItem: "2",
     categoryBook: "5",
     authorBook: "Nhiều tác giả",
@@ -125,7 +127,7 @@ List<ProductModel> productsGrid = [
     imageUrl: "bia_hanh-trinh-thai-giao-theo-chuyen-gia_2_1_1.png",
     name:
         "Hành Trình Thai Giáo 280 Ngày - Mỗi Ngày Đọc Một Trang (Tái Bản 2023)",
-    price: "67000",
+    price: 67000,
     categoryItem: "2",
     categoryBook: "5",
     authorBook: "Nhiều tác giả",
@@ -139,7 +141,7 @@ List<ProductModel> productsGrid = [
     imageUrl: "bia_hanh-trinh-thai-giao-theo-chuyen-gia_2_1_1.png",
     name:
         "Hành Trình Thai Giáo 280 Ngày - Mỗi Ngày Đọc Một Trang (Tái Bản 2023)",
-    price: "67000",
+    price: 67000,
     categoryItem: "2",
     categoryBook: "5",
     authorBook: "Nhiều tác giả",
@@ -153,7 +155,7 @@ List<ProductModel> productsGrid = [
     imageUrl: "bia_hanh-trinh-thai-giao-theo-chuyen-gia_2_1_1.png",
     name:
         "Hành Trình Thai Giáo 280 Ngày - Mỗi Ngày Đọc Một Trang (Tái Bản 2023)",
-    price: "67000",
+    price: 67000,
     categoryItem: "2",
     categoryBook: "5",
     authorBook: "Nhiều tác giả",
