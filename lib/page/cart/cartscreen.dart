@@ -53,65 +53,137 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Giỏ hàng'),
-      ),
-      body: cartItems.isEmpty
-          ? Center(
-              child: Text('Giỏ hàng của bạn trống.'),
-            )
-          : Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: cartItems.length,
-                    itemBuilder: (context, index) {
-                      Map<String, dynamic> cartItem = cartItems[index];
-                      return ListTile(
-                        title: Text(cartItem['name']),
-                        subtitle: Text('${cartItem['price']} VNĐ'),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.remove),
-                              onPressed: () {
-                                if (cartItem['quantity'] > 1) {
-                                  updateCartItemQuantity(
-                                    cartItem['product_id'],
-                                    cartItem['quantity'] - 1,
-                                  );
-                                }
-                              },
-                            ),
-                            Text('${cartItem['quantity']}'),
-                            IconButton(
-                              icon: Icon(Icons.add),
-                              onPressed: () {
-                                updateCartItemQuantity(
-                                  cartItem['product_id'],
-                                  cartItem['quantity'] + 1,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  "assets/layout/layout_1.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        "assets/image/logo_2.png",
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.contain,
+                      ),
+                      Spacer(flex: 1),
+                      IconButton(
+                        iconSize: 40,
+                        icon: const Icon(Icons.notifications,
+                            color: Colors.white),
+                        onPressed: () {
+                          // Handle notification button press
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 160,
+                left: 40,
+                child: Center(
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Colors.white,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      backgroundColor: const Color(0xFFF3B664),
+                      padding: const EdgeInsets.all(15),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 230,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    cartItems.isEmpty
+                        ? Center(
+                            child: Text('Giỏ hàng của bạn trống.'),
+                          )
+                        : Expanded(
+                            child: ListView.builder(
+                              itemCount: cartItems.length,
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic> cartItem =
+                                    cartItems[index];
+                                return ListTile(
+                                  title: Text(cartItem['name']),
+                                  subtitle: Text('${cartItem['price']} VNĐ'),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.remove),
+                                        onPressed: () {
+                                          if (cartItem['quantity'] > 1) {
+                                            updateCartItemQuantity(
+                                              cartItem['product_id'],
+                                              cartItem['quantity'] - 1,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                      Text('${cartItem['quantity']}'),
+                                      IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: () {
+                                          updateCartItemQuantity(
+                                            cartItem['product_id'],
+                                            cartItem['quantity'] + 1,
+                                          );
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () {
+                                          removeFromCart(
+                                              cartItem['product_id']);
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                removeFromCart(cartItem['product_id']);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text('Tổng cộng: $totalAmount VNĐ'),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text('Tổng cộng: $totalAmount VNĐ'),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
