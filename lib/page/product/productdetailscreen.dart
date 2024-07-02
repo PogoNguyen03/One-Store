@@ -24,15 +24,22 @@ class _ProductDetailState extends State<ProductDetail> {
   // List<ProductModel> favoriteProducts = [];
   DatabaseHelper _dbHelper = DatabaseHelper(); // Thể hiện của DatabaseHelper
   void addToCart(ProductModel product) {
-    // Example usage
     _dbHelper.addToCart(product, 1).then((value) {
-      // Xử lý sau khi thêm vào giỏ hàng thành công (nếu cần)
-      print('Added to cart');
+      // Xử lý sau khi thêm vào giỏ hàng thành công
+      if (value > 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Đã thêm vào giỏ hàng'),
+            duration: Duration(seconds: 2), // Thời gian hiển thị của SnackBar
+          ),
+        );
+      }
     }).catchError((error) {
-      // Xử lý khi có lỗi xảy ra (nếu cần)
+      // Xử lý khi có lỗi xảy ra
       print('Error adding to cart: $error');
     });
   }
+
   // Hàm chuyển đổi trạng thái yêu thích
   // void toggleFavorite() {
   //   setState(() {
