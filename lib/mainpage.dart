@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/users.dart';
-import 'package:one_store/page/cart/cartscreen.dart';
+import 'package:one_store/page/setting/cart/cartscreen.dart';
 import 'package:one_store/page/favourite/favouritescreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';

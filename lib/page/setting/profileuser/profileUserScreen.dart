@@ -56,18 +56,28 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
   }
 
   Future<void> saveChanges() async {
-    setState(() {
-      widget.user.fullname = fullnameController.text;
-      widget.user.phoneNumber = phoneNumberController.text;
-      widget.user.gmail = gmailController.text;
-      widget.user.usrBirday = DateTime.tryParse(birthdayController.text);
-      widget.user.isDefault = genderController.text.toLowerCase() == 'nữ';
+    setState(
+      () {
+        widget.user.fullname = fullnameController.text.isNotEmpty
+            ? fullnameController.text
+            : "Chưa cập nhật";
+        widget.user.phoneNumber = phoneNumberController.text.isNotEmpty
+            ? phoneNumberController.text
+            : "Chưa cập nhật";
+        widget.user.gmail = gmailController.text.isNotEmpty
+            ? gmailController.text
+            : "Chưa cập nhật";
+        widget.user.usrBirday = birthdayController.text.isNotEmpty
+            ? DateTime.tryParse(birthdayController.text)
+            : null; // Thay đổi để trống sẽ không cập nhật ngày sinh
+        widget.user.isDefault = genderController.text.toLowerCase() == 'nữ';
 
-      // isEditing = false;
-      if (_imageFile != null) {
-        widget.user.usrImage = _imageFile!.path; // Cập nhật đường dẫn ảnh
-      }
-    });
+        // isEditing = false;
+        if (_imageFile != null) {
+          widget.user.usrImage = _imageFile!.path; // Cập nhật đường dẫn ảnh
+        }
+      },
+    );
 
     // Thêm các xử lý lưu dữ liệu vào cơ sở dữ liệu hoặc API tại đây
     // Gọi phương thức updateUser để lưu dữ liệu vào cơ sở dữ liệu

@@ -1,3 +1,4 @@
+import 'package:one_store/data/model/address.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -32,6 +33,16 @@ class DatabaseHelper {
   )
 ''';
 
+  String addressesTable = '''
+  CREATE TABLE IF NOT EXISTS addresses (
+    address_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    street TEXT NOT NULL,
+    city TEXT NOT NULL,
+    district TEXT NOT NULL,
+    ward TEXT NOT NULL
+  )
+''';
+
   //We are done in this section
 
   Future<Database> initDB() async {
@@ -46,6 +57,7 @@ class DatabaseHelper {
       await db.execute(user); // Tạo bảng users
       await db
           .execute(cartItemsTable); // Tạo bảng product_model (nếu chưa tồn tại)
+      await db.execute(addressesTable);
     });
   }
 
@@ -241,40 +253,18 @@ class DatabaseHelper {
       });
     }
   }
-  // //Search Method
-  // Future<List<NoteModel>> searchNotes(String keyword) async {
-  //   final Database db = await initDB();
-  //   List<Map<String, Object?>> searchResult = await db
-  //       .rawQuery("select * from notes where noteTitle LIKE ?", ["%$keyword%"]);
-  //   return searchResult.map((e) => NoteModel.fromMap(e)).toList();
-  // }
 
-  //CRUD Methods
+  //truy cập trang địa chỉ trong setting
+  Future<List<Address>> getAddresses() async {
+    final db = await initDB();
+    var result = await db.query('addresses');
+    List<Address> addresses =
+        result.isNotEmpty ? result.map((e) => Address.fromMap(e)).toList() : [];
+    return addresses;
+  }
 
-  // //Create Note
-  // Future<int> createNote(NoteModel note) async {
-  //   final Database db = await initDB();
-  //   return db.insert('notes', note.toMap());
-  // }
-
-  // //Get notes
-  // Future<List<NoteModel>> getNotes() async {
-  //   final Database db = await initDB();
-  //   List<Map<String, Object?>> result = await db.query('notes');
-  //   return result.map((e) => NoteModel.fromMap(e)).toList();
-  // }
-
-  // //Delete Notes
-  // Future<int> deleteNote(int id) async {
-  //   final Database db = await initDB();
-  //   return db.delete('notes', where: 'noteId = ?', whereArgs: [id]);
-  // }
-
-  // //Update Notes
-  // Future<int> updateNote(title, content, noteId) async {
-  //   final Database db = await initDB();
-  //   return db.rawUpdate(
-  //       'update notes set noteTitle = ?, noteContent = ? where noteId = ?',
-  //       [title, content, noteId]);
-  // }
+  Future<int> insertAddress(Address address) async {
+    final db = await initDB();
+    return await db.insert('addresses', address.toMap());
+  }
 }

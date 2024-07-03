@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:one_store/page/login/loginscreen.dart';
 // import 'package:one_store/page/setting/addressScreen.dart';
 import '../../data/model/users.dart';
-import '../setting/profileUserScreen.dart';
-import './changePasswordScreen.dart';
+import 'profileuser/profileUserScreen.dart';
+import 'changepass/changePasswordScreen.dart';
 // import 'addressScreen.dart';
 
 // ignore: camel_case_types
