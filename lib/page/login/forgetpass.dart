@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:one_store/SQLite/sqlite.dart';
-import 'package:one_store/data/model/users.dart';
+// import 'package:one_store/data/model/users.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);

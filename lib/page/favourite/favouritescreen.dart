@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
 import 'package:one_store/page/favourite/favoriteservice.dart';
 
 class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({Key? key}) : super(key: key);
+  const FavoritesScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FavoritesScreenState createState() => _FavoritesScreenState();
 }
 
@@ -17,7 +18,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: Stack(
@@ -43,7 +44,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         height: 150,
                         fit: BoxFit.contain,
                       ),
-                      Spacer(flex: 1),
+                      const Spacer(flex: 1),
                       IconButton(
                         iconSize: 40,
                         icon: const Icon(Icons.notifications,
@@ -118,7 +119,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                                       .withOpacity(0.1),
                                                   spreadRadius: 1,
                                                   blurRadius: 5,
-                                                  offset: Offset(0, 3),
+                                                  offset: const Offset(0, 3),
                                                 ),
                                               ],
                                             ),
@@ -128,7 +129,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                               children: [
                                                 ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.only(
+                                                      const BorderRadius.only(
                                                     topLeft:
                                                         Radius.circular(10.0),
                                                     topRight:
@@ -155,7 +156,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                                       children: <Widget>[
                                                         Text(
                                                           product.name,
-                                                          style: TextStyle(
+                                                          style:
+                                                              const TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize: 14,

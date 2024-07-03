@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
-import 'package:one_store/globals.dart';
+// import 'package:one_store/globals.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:one_store/page/product/productdetailscreen.dart'; // Import thư viện diacritic
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SearchScreenState createState() => _SearchScreenState();
 }
 
@@ -56,11 +57,11 @@ class _SearchScreenState extends State<SearchScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Filter Options'),
-          content: Text('Here you can add your filter options.'),
+          title: const Text('Filter Options'),
+          content: const Text('Here you can add your filter options.'),
           actions: [
             TextButton(
-              child: Text('Close'),
+              child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -88,19 +89,19 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                  color: Color(0xFFF3B664), // Outer border color
+                  color: const Color(0xFFF3B664), // Outer border color
                 ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -109,17 +110,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.search),
+                        icon: const Icon(Icons.search),
                         onPressed: _showFilterDialog,
-                        color: Color(0xFFF3B664),
+                        color: const Color(0xFFF3B664),
                       ),
                       Expanded(
                         child: TextField(
                           controller: _searchController,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xFFF3B664),
                           ),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Tìm kiếm sản phẩm...',
                             hintStyle: TextStyle(
                               color: Color(0xFFF3B664),
@@ -137,27 +138,27 @@ class _SearchScreenState extends State<SearchScreen> {
                     Positioned(
                       right: 40,
                       child: IconButton(
-                        icon: Icon(Icons.close_rounded),
+                        icon: const Icon(Icons.close_rounded),
                         onPressed: _clearSearchField,
-                        color: Color(0xFFF3B664),
+                        color: const Color(0xFFF3B664),
                       ),
                     ),
                   Positioned(
                     right: 0,
                     child: IconButton(
-                      icon: Icon(Icons.tune),
+                      icon: const Icon(Icons.tune),
                       onPressed: _showFilterDialog,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: searchResults.isEmpty && query.isEmpty
                   ? _buildLatestProducts()
                   : searchResults.isEmpty
-                      ? Center(
+                      ? const Center(
                           child: Text(
                             'Không tìm thấy sản phẩm nào',
                             style: TextStyle(fontSize: 18, color: Colors.black),
@@ -220,7 +221,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 color: Colors.black.withOpacity(0.1),
                                 spreadRadius: 1,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
@@ -232,7 +233,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                             Text(
                               product.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
@@ -293,7 +294,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -301,7 +302,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10.0),
                       topRight: Radius.circular(10.0),
                     ),
@@ -323,7 +324,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: <Widget>[
                           Text(
                             product.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),

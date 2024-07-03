@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/globals.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/product_model.dart';
 import '../favourite/favoriteservice.dart';
 
 class FavoriteButton extends StatefulWidget {
   final ProductModel product;
 
-  const FavoriteButton({Key? key, required this.product}) : super(key: key);
+  const FavoriteButton({super.key, required this.product});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FavoriteButtonState createState() => _FavoriteButtonState();
 }
 
@@ -25,7 +26,6 @@ class _FavoriteButtonState extends State<FavoriteButton> {
   void _loadFavoriteStatus() async {
     bool status =
         await FavoriteService.loadFavoriteStatus(widget.product.productid);
-    print('Loaded favorite status for ${widget.product.name}: $status');
     setState(() {
       isFavorite = status;
     });
@@ -36,17 +36,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       isFavorite = !isFavorite;
     });
 
-    print('Toggled favorite status for ${widget.product.name}: $isFavorite');
-
     await FavoriteService.saveFavoriteStatus(
         widget.product.productid, isFavorite);
 
     if (isFavorite) {
       favoriteProducts.add(widget.product);
-      print('Added ${widget.product.name} to favorites');
     } else {
       favoriteProducts.remove(widget.product);
-      print('Removed ${widget.product.name} from favorites');
     }
   }
 

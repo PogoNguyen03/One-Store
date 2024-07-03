@@ -38,6 +38,7 @@ class DatabaseHelper {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
+    print('Đường dẫn database: $path');
     // Xóa cơ sở dữ liệu hiện tại (nếu cần)
     // await deleteDatabase(path);
 

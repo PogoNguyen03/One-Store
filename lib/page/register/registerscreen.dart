@@ -9,7 +9,7 @@ import 'package:one_store/SQLite/sqlite.dart';
 
 // RegisterScreen
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RegisterScreen(),
+                              builder: (context) => const RegisterScreen(),
                             ),
                           );
                         },
@@ -67,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
+                              builder: (context) => const LoginScreen(),
                             ),
                           );
                         },
@@ -239,10 +239,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           obscureText: !isVisible,
                           decoration: InputDecoration(
                             hintText: "Mật khẩu",
-                            hintStyle: TextStyle(color: Color(0xFFEC8F5E)),
+                            hintStyle:
+                                const TextStyle(color: Color(0xFFEC8F5E)),
                             border: InputBorder.none,
-                            prefixIcon:
-                                Icon(Icons.lock, color: Color(0xFFEC8F5E)),
+                            prefixIcon: const Icon(Icons.lock,
+                                color: Color(0xFFEC8F5E)),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -252,7 +253,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: Icon(isVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off),
-                              color: Color(0xFFEC8F5E),
+                              color: const Color(0xFFEC8F5E),
                             ),
                           ),
                         ),
@@ -281,10 +282,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           obscureText: !isVisible,
                           decoration: InputDecoration(
                             hintText: "Xác nhận mật khẩu",
-                            hintStyle: TextStyle(color: Color(0xFFEC8F5E)),
+                            hintStyle:
+                                const TextStyle(color: Color(0xFFEC8F5E)),
                             border: InputBorder.none,
-                            prefixIcon:
-                                Icon(Icons.lock, color: Color(0xFFEC8F5E)),
+                            prefixIcon: const Icon(Icons.lock,
+                                color: Color(0xFFEC8F5E)),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -294,7 +296,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: Icon(isVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off),
-                              color: Color(0xFFEC8F5E),
+                              color: const Color(0xFFEC8F5E),
                             ),
                           ),
                         ),
@@ -305,7 +307,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: MediaQuery.of(context).size.width * .9,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: Color(0xFFEC8F5E),
+                          color: const Color(0xFFEC8F5E),
                         ),
                         child: TextButton(
                           onPressed: () {
@@ -339,7 +341,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }
                               }).catchError((error) {
-                                print("Error while signing up: $error");
                                 // Xử lý lỗi nếu có
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

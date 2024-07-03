@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:one_store/data/model/category_model.dart';
 import 'package:one_store/data/model/product_model.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'homescreen.dart';
+// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+// import 'homescreen.dart';
 
 Widget buildImage(String urlImage, int index, BoxFit fit) => Container(
-      margin: EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       // color: Colors.grey,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -20,7 +20,7 @@ Widget buildImage(String urlImage, int index, BoxFit fit) => Container(
 class GridItems extends StatelessWidget {
   final int index;
 
-  GridItems(this.index);
+  const GridItems(this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {

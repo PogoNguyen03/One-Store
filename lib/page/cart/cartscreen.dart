@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:one_store/data/model/product_model.dart';
+// import 'package:flutter/services.dart';
+// import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 
 class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CartScreenState createState() => _CartScreenState();
 }
 
@@ -68,7 +71,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: Stack(
@@ -96,7 +99,7 @@ class _CartScreenState extends State<CartScreen> {
                         height: 150,
                         fit: BoxFit.contain,
                       ),
-                      Spacer(flex: 1),
+                      const Spacer(flex: 1),
                       IconButton(
                         iconSize: 40,
                         icon: const Icon(Icons.notifications,
@@ -133,7 +136,7 @@ class _CartScreenState extends State<CartScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     cartItems.isEmpty
-                        ? Center(
+                        ? const Center(
                             child: Text('Giỏ hàng của bạn trống.'),
                           )
                         : Expanded(
@@ -160,7 +163,7 @@ class _CartScreenState extends State<CartScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
-                                            icon: Icon(Icons.remove),
+                                            icon: const Icon(Icons.remove),
                                             onPressed: () {
                                               if (cartItem['quantity'] > 1) {
                                                 updateCartItemQuantity(
@@ -172,7 +175,7 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                           Text('${cartItem['quantity']}'),
                                           IconButton(
-                                            icon: Icon(Icons.add),
+                                            icon: const Icon(Icons.add),
                                             onPressed: () {
                                               updateCartItemQuantity(
                                                 cartItem['product_id'],
@@ -181,7 +184,7 @@ class _CartScreenState extends State<CartScreen> {
                                             },
                                           ),
                                           IconButton(
-                                            icon: Icon(Icons.delete),
+                                            icon: const Icon(Icons.delete),
                                             onPressed: () {
                                               removeFromCart(
                                                   cartItem['product_id']);
@@ -222,7 +225,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               Text(
                                 '$totalAmount VND',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -236,8 +239,8 @@ class _CartScreenState extends State<CartScreen> {
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    Color(0xFFEC8F5E), // Background color
-                                minimumSize: Size(150, 50)),
+                                    const Color(0xFFEC8F5E), // Background color
+                                minimumSize: const Size(150, 50)),
                             child: const Text(
                               'Thanh toán',
                               style: TextStyle(

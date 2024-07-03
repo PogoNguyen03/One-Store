@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:circle_nav_bar/circle_nav_bar.dart';
-import 'package:one_store/mainpage.dart';
+// import 'package:circle_nav_bar/circle_nav_bar.dart';
+// import 'package:one_store/mainpage.dart';
 import 'package:one_store/page/login/loginscreen.dart';
 // import 'package:one_store/page/setting/addressScreen.dart';
 import '../../data/model/users.dart';
@@ -14,18 +14,19 @@ class SettingScreen extends StatefulWidget {
   // const SettingScreen({Key? key, required this.users}) : super(key: key);
   final Users user; // Khai báo trường user
 
-  const SettingScreen({Key? key, required this.user}) : super(key: key);
+  const SettingScreen({super.key, required this.user});
 
   @override
   State<SettingScreen> createState() => _settingScreenState();
 }
 
+// ignore: camel_case_types
 class _settingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: Stack(

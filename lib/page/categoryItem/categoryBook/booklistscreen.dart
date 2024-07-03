@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/product_model.dart';
-import 'package:one_store/page/product/productdetailscreen.dart';
+// import 'package:one_store/page/product/productdetailscreen.dart';
 import 'package:one_store/data/model/category_book_model.dart';
 import 'categorybooklistview.dart';
 import 'productgridlistbook.dart';

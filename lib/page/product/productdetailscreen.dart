@@ -4,7 +4,7 @@ import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/favoritebutton.dart';
 
 import '../../data/model/category_book_model.dart';
-import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
+// import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
 
 class ProductDetail extends StatefulWidget {
   final ProductModel product;
@@ -12,23 +12,25 @@ class ProductDetail extends StatefulWidget {
   const ProductDetail(this.product, {super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductDetailState createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  int _selectedIndex = 0;
-  int _cartItemCount = 0;
+  // int _selectedIndex = 0;
+  // int _cartItemCount = 0;
   // Biến lưu trạng thái yêu thích
   // bool isFavorite = false;
   // Danh sách các sản phẩm yêu thích
   // List<ProductModel> favoriteProducts = [];
-  DatabaseHelper _dbHelper = DatabaseHelper(); // Thể hiện của DatabaseHelper
+  final DatabaseHelper _dbHelper =
+      DatabaseHelper(); // Thể hiện của DatabaseHelper
   void addToCart(ProductModel product) {
     _dbHelper.addToCart(product, 1).then((value) {
       // Xử lý sau khi thêm vào giỏ hàng thành công
       if (value > 0) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Đã thêm vào giỏ hàng'),
             duration: Duration(seconds: 2), // Thời gian hiển thị của SnackBar
           ),
@@ -36,37 +38,8 @@ class _ProductDetailState extends State<ProductDetail> {
       }
     }).catchError((error) {
       // Xử lý khi có lỗi xảy ra
-      print('Error adding to cart: $error');
     });
   }
-
-  // Hàm chuyển đổi trạng thái yêu thích
-  // void toggleFavorite() {
-  //   setState(() {
-  //     isFavorite = !isFavorite;
-  //     if (isFavorite) {
-  //       // Thêm sản phẩm vào danh sách yêu thích
-  //       favoriteProducts.add(widget.product);
-  //     } else {
-  //       // Xóa sản phẩm khỏi danh sách yêu thích
-  //       favoriteProducts.remove(widget.product);
-  //     }
-  //   });
-  // }
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  //   // Thêm hành vi khi mỗi mục được nhấn, nếu cần
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Kiểm tra nếu sản phẩm này đã được thêm vào danh sách yêu thích
-  //   isFavorite = favoriteProducts.contains(widget.product);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +151,7 @@ class _ProductDetailState extends State<ProductDetail> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               FavoriteButton(product: widget.product),
-              Container(
+              SizedBox(
                 width: 200,
                 height: 47,
                 child: ElevatedButton(
@@ -200,7 +173,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Colors.white), // Màu nền là màu trắng
                     foregroundColor: MaterialStateProperty.all<Color>(
-                        Color(0xFFEC8F5E)), // Màu chữ là màu cam
+                        const Color(0xFFEC8F5E)), // Màu chữ là màu cam
                   ),
                   child: const Text('Thêm vào giỏ hàng'),
                 ),

@@ -7,9 +7,10 @@ import 'package:image_picker/image_picker.dart';
 class ProfileUserScreen extends StatefulWidget {
   final Users user; // Nhận user từ các tham số của widget
 
-  const ProfileUserScreen({Key? key, required this.user}) : super(key: key);
+  const ProfileUserScreen({super.key, required this.user});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfileUserScreenState createState() => _ProfileUserScreenState();
 }
 
@@ -77,7 +78,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Thông tin đã được cập nhật')),
+      const SnackBar(content: Text('Thông tin đã được cập nhật')),
     );
   }
 
@@ -144,7 +145,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                         height: 150,
                         fit: BoxFit.contain,
                       ),
-                      Spacer(flex: 1),
+                      const Spacer(flex: 1),
                       IconButton(
                         iconSize: 40,
                         icon: const Icon(Icons.notifications,
@@ -192,13 +193,13 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                             }
                           },
                           child: Container(
-                            width: 80,
-                            height: 80,
+                            width: 100,
+                            height: 100,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: Colors.blue,
-                                width: 3.0,
+                                color: Colors.black,
+                                width: 4.0,
                               ),
                             ),
                             child: ClipOval(
@@ -208,7 +209,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                       ? Image.file(File(widget.user.usrImage!),
                                           fit: BoxFit.cover)
                                       : Image.asset(
-                                          "assets/images/icon_user.png", // Đường dẫn đến biểu tượng người dùng trong assets của bạn
+                                          "assets/image/icon_user.png", // Đường dẫn đến biểu tượng người dùng trong assets của bạn
                                           width: 70,
                                           height: 70,
                                           fit: BoxFit.cover,
@@ -217,21 +218,21 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isEditing =
-                                  true; // Khi nhấn vào nút thay đổi, đặt isEditing thành true
-                            });
-                          },
-                          child: const Text(
-                            "Chỉnh sửa ảnh",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       isEditing =
+                        //           true; // Khi nhấn vào nút thay đổi, đặt isEditing thành true
+                        //     });
+                        //   },
+                        //   child: const Text(
+                        //     "Chỉnh sửa ảnh",
+                        //     style: TextStyle(
+                        //       fontSize: 15,
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(height: 30),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -243,9 +244,9 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                             children: [
                               TableRow(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 20, right: 15),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(bottom: 20, right: 15),
                                     child: Text(
                                       "Họ tên",
                                       style: TextStyle(
@@ -260,25 +261,27 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                     child: isEditing
                                         ? TextField(
                                             controller: fullnameController,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               hintText: "Họ tên",
                                               border: OutlineInputBorder(),
                                             ),
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           )
                                         : Text(
                                             widget.user.fullname ??
                                                 "Chưa cập nhật",
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           ),
                                   ),
                                 ],
                               ),
                               TableRow(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 20, right: 15),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(bottom: 20, right: 15),
                                     child: Text(
                                       "Số điện thoại",
                                       style: TextStyle(
@@ -293,16 +296,18 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                     child: isEditing
                                         ? TextField(
                                             controller: phoneNumberController,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               hintText: "Số điện thoại",
                                               border: OutlineInputBorder(),
                                             ),
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           )
                                         : Text(
                                             widget.user.phoneNumber ??
                                                 "Chưa cập nhật",
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           ),
                                   ),
                                 ],
@@ -330,12 +335,14 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                               hintText: "Gmail",
                                               border: OutlineInputBorder(),
                                             ),
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           )
                                         : Text(
                                             widget.user.gmail ??
                                                 "Chưa cập nhật",
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           ),
                                   ),
                                 ],
@@ -373,8 +380,8 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                                     border:
                                                         OutlineInputBorder(),
                                                   ),
-                                                  style:
-                                                      TextStyle(fontSize: 18),
+                                                  style: const TextStyle(
+                                                      fontSize: 18),
                                                 ),
                                               ),
                                               IconButton(
@@ -382,8 +389,8 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                                   // Hiển thị date picker khi nhấn vào icon lịch
                                                   _selectDate(context);
                                                 },
-                                                icon:
-                                                    Icon(Icons.calendar_today),
+                                                icon: const Icon(
+                                                    Icons.calendar_today),
                                               ),
                                             ],
                                           )
@@ -394,7 +401,8 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                                     .split('T')
                                                     .first
                                                 : "Chưa cập nhật",
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           ),
                                   ),
                                 ],
@@ -417,7 +425,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                         bottom: 20, left: 15),
                                     child: isEditing
                                         ? Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 5),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
@@ -448,7 +456,8 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                           )
                                         : Text(
                                             selectedGender,
-                                            style: TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           ),
                                   ),
                                 ],
@@ -483,7 +492,7 @@ class _ProfileUserScreenState extends State<ProfileUserScreen> {
                                   ),
                                 ),
                               ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             GestureDetector(
                               onTap: () {
                                 if (isEditing) {
