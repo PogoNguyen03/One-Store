@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "name": "Sách Văn Học 1",
+    "type": "Văn học",
+    "author": "Tác giả A",
+    "originalPrice": 150.0,
+    "price": 120.0,
+    "publishYear": 2020,
+    "size": "15x20 cm",
+    "weight": 0.3,
+    "quantity": 50,
+    "description": "Mô tả sách văn học 1",
+    "status": "Còn hàng"
+  },
+  {
+    "id": "2",
+    "name": "Sách Tiểu Thuyết 1",
+    "type": "Tiểu thuyết",
+    "author": "Tác giả B",
+    "originalPrice": 200.0,
+    "price": 180.0,
+    "publishYear": 2019,
+    "size": "20x25 cm",
+    "weight": 0.4,
+    "quantity": 30,
+    "description": "Mô tả sách tiểu thuyết 1",
+    "status": "Còn hàng"
+  },
+  {
+    "id": "3",
+    "name": "Sách Tâm Lý 1",
+    "type": "Tâm lý",
+    "author": "Tác giả C",
+    "originalPrice": 170.0,
+    "price": 150.0,
+    "publishYear": 2021,
+    "size": "18x24 cm",
+    "weight": 0.35,
+    "quantity": 40,
+    "description": "Mô tả sách tâm lý 1",
+    "status": "Hết hàng"
+  }
+]

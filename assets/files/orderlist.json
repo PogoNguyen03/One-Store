@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "customerName": "Nguyễn Văn A",
+    "status": "Đã giao",
+    "totalAmount": 500.000,
+    "orderTime": "2024-06-24T10:30:00",
+    "items": [
+      {
+        "productName": "Sản phẩm 1",
+        "quantity": 2
+      },
+      {
+        "productName": "Sản phẩm 2",
+        "quantity": 1
+      }
+    ],
+    "customerAddress": "Địa chỉ 1",
+    "customerPhone": "0123456789"
+  },
+  {
+    "id": 2,
+    "customerName": "Trần Thị B",
+    "status": "Đang vận chuyển",
+    "totalAmount": 800.000,
+    "orderTime": "2024-06-23T15:45:00",
+    "items": [
+      {
+        "productName": "Sản phẩm 3",
+        "quantity": 3
+      }
+    ],
+    "customerAddress": "Địa chỉ 2",
+    "customerPhone": "0987654321"
+  }
+]
