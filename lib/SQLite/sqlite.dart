@@ -18,6 +18,7 @@ class DatabaseHelper {
   CREATE TABLE IF NOT EXISTS product_model (
     cart_id INTEGER PRIMARY KEY AUTOINCREMENT,
     product_id TEXT NOT NULL,
+    imageUrl TEXT NULL,
     name TEXT NOT NULL,
     price REAL NOT NULL,
     quantity INTEGER NOT NULL,
@@ -170,6 +171,7 @@ class DatabaseHelper {
       return await db.insert('product_model', {
         'product_id': product.productid,
         'name': product.name,
+        'imageUrl': product.imageUrl,
         'quantity': quantity,
         'price': product.price,
         'categoryItem': product.categoryItem,

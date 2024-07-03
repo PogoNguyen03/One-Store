@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/users.dart';
 
@@ -124,6 +125,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
               Positioned(
+                top: 250,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    "assets/layout/layout_4.png",
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Positioned(
                 top: 160,
                 left: 40,
                 child: Center(
@@ -144,7 +158,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
               Positioned(
-                top: 230,
+                top: 400,
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -154,21 +168,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       if (!isConfirming) ...[
                         Column(
                           children: [
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Text(
-                                  "Số điện thoại",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFEC8F5E),
+                            const Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: 30,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    "Vui lòng nhập số điện thoại đã đăng ký",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 20),
                             Row(
@@ -334,7 +349,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 80),
+                            const SizedBox(height: 40),
                             GestureDetector(
                               onTap: _updatePassword,
                               child: Container(

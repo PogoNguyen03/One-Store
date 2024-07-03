@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 
@@ -48,6 +49,19 @@ class _CartScreenState extends State<CartScreen> {
   void updateCartItemQuantity(String productId, int newQuantity) async {
     await dbHelper.updateCartItemQuantity(productId, newQuantity);
     loadCartItems(); // Reload items after update
+  }
+
+  // Method to calculate the total amount for selected items
+  void calculateSelectedTotalAmount() {
+    totalAmount = cartItems.fold(
+      0,
+      (previousValue, item) {
+        if (item['isSelected']) {
+          return previousValue + (item['price'] * item['quantity']);
+        }
+        return previousValue;
+      },
+    );
   }
 
   @override
@@ -107,11 +121,6 @@ class _CartScreenState extends State<CartScreen> {
                       Icons.arrow_back_ios_new_rounded,
                       color: Colors.white,
                     ),
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      backgroundColor: const Color(0xFFF3B664),
-                      padding: const EdgeInsets.all(15),
-                    ),
                   ),
                 ),
               ),
@@ -134,38 +143,62 @@ class _CartScreenState extends State<CartScreen> {
                                 Map<String, dynamic> cartItem =
                                     cartItems[index];
                                 return ListTile(
-                                  title: Text(cartItem['name']),
-                                  subtitle: Text('${cartItem['price']} VNĐ'),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                                  leading: Image.asset(
+                                    "assets/image/book/${cartItem['imageUrl']}", // Assuming imageUrl field contains the path to the image
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  title: Column(
+                                    // Đổi từ Text(cartItem['name']) sang Column
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      IconButton(
-                                        icon: Icon(Icons.remove),
-                                        onPressed: () {
-                                          if (cartItem['quantity'] > 1) {
-                                            updateCartItemQuantity(
-                                              cartItem['product_id'],
-                                              cartItem['quantity'] - 1,
-                                            );
-                                          }
-                                        },
-                                      ),
-                                      Text('${cartItem['quantity']}'),
-                                      IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          updateCartItemQuantity(
-                                            cartItem['product_id'],
-                                            cartItem['quantity'] + 1,
-                                          );
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () {
-                                          removeFromCart(
-                                              cartItem['product_id']);
-                                        },
+                                      Text(cartItem['name']),
+                                      Text('${cartItem['price']} VNĐ'),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(Icons.remove),
+                                            onPressed: () {
+                                              if (cartItem['quantity'] > 1) {
+                                                updateCartItemQuantity(
+                                                  cartItem['product_id'],
+                                                  cartItem['quantity'] - 1,
+                                                );
+                                              }
+                                            },
+                                          ),
+                                          Text('${cartItem['quantity']}'),
+                                          IconButton(
+                                            icon: Icon(Icons.add),
+                                            onPressed: () {
+                                              updateCartItemQuantity(
+                                                cartItem['product_id'],
+                                                cartItem['quantity'] + 1,
+                                              );
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.delete),
+                                            onPressed: () {
+                                              removeFromCart(
+                                                  cartItem['product_id']);
+                                            },
+                                          ),
+                                          Checkbox(
+                                            value: cartItem['isSelected'] ??
+                                                false, // Đảm bảo value không bị null
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                cartItem['isSelected'] =
+                                                    value ?? false;
+                                                calculateSelectedTotalAmount();
+                                              });
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -174,8 +207,46 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text('Tổng cộng: $totalAmount VNĐ'),
+                      padding: const EdgeInsets.only(
+                          bottom: 50.0, right: 50, left: 50),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Tổng thanh toán",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 15),
+                              ),
+                              Text(
+                                '$totalAmount VND',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Handle payment action
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color(0xFFEC8F5E), // Background color
+                                minimumSize: Size(150, 50)),
+                            child: const Text(
+                              'Thanh toán',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
