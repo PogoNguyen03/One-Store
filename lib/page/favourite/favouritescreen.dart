@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_store/data/model/product_model.dart';
@@ -14,6 +15,29 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
+  late DatabaseHelper dbHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    dbHelper =
+        DatabaseHelper(); // Initialize dbHelper in initState or constructor
+  }
+
+  void _toggleFavorite(ProductModel product, bool isCurrentlyFavorite) {
+    bool newFavoriteState = !isCurrentlyFavorite;
+    setState(() {
+      if (newFavoriteState) {
+        favoriteProducts.add(product);
+      } else {
+        favoriteProducts.remove(product);
+      }
+    });
+
+    // Save favorite status to SQLite
+    dbHelper.saveFavoriteStatus(product.productid, newFavoriteState);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,18 +223,5 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ),
       ),
     );
-  }
-
-  void _toggleFavorite(ProductModel product, bool isCurrentlyFavorite) {
-    bool newFavoriteState = !isCurrentlyFavorite;
-    setState(() {
-      if (newFavoriteState) {
-        favoriteProducts.add(product);
-      } else {
-        favoriteProducts.remove(product);
-      }
-    });
-
-    FavoriteService.saveFavoriteStatus(product.productid, newFavoriteState);
   }
 }

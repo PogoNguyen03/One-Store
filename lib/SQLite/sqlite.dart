@@ -216,6 +216,31 @@ class DatabaseHelper {
     return (result.first['total'] ?? 0.0) as double;
   }
 
+  // Method to save favorite status
+  Future<int> saveFavoriteStatus(String productId, bool isFavorite) async {
+    final db = await initDB();
+
+    // Check if the product already exists
+    var result = await db.rawQuery(
+        "SELECT * FROM product_model WHERE product_id = '$productId'");
+
+    if (result.isNotEmpty) {
+      // Update existing record
+      return await db.update(
+          'product_model',
+          {
+            'isSelected': isFavorite ? 1 : 0,
+          },
+          where: 'product_id = ?',
+          whereArgs: [productId]);
+    } else {
+      // Insert new record
+      return await db.insert('product_model', {
+        'product_id': productId,
+        'isSelected': isFavorite ? 1 : 0,
+      });
+    }
+  }
   // //Search Method
   // Future<List<NoteModel>> searchNotes(String keyword) async {
   //   final Database db = await initDB();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/SQLite/sqlite.dart';
+import 'package:one_store/data/model/product_model.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -113,145 +114,292 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               Positioned(
-                top: 160,
-                left: 40,
-                child: Center(
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
                 top: 230,
                 left: 0,
                 right: 0,
-                bottom: 0,
+                bottom: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    cartItems.isEmpty
-                        ? const Center(
-                            child: Text('Giỏ hàng của bạn trống.'),
-                          )
-                        : Expanded(
-                            child: ListView.builder(
-                              itemCount: cartItems.length,
-                              itemBuilder: (context, index) {
-                                Map<String, dynamic> cartItem =
-                                    cartItems[index];
-                                return ListTile(
-                                  leading: Image.asset(
-                                    "assets/image/book/${cartItem['imageUrl']}", // Assuming imageUrl field contains the path to the image
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  title: Column(
-                                    // Đổi từ Text(cartItem['name']) sang Column
+                    if (cartItems.isEmpty)
+                      const Center(
+                          child: Padding(
+                        padding: EdgeInsets.only(top: 200),
+                        child: Text(
+                          "Giỏ hàng của bạn đang trống",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ))
+                    else
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: cartItems.length,
+                          itemBuilder: (context, index) {
+                            Map<String, dynamic> cartItem = cartItems[index];
+
+                            // Chuyển đổi Map thành ProductModel
+                            ProductModel product = ProductModel(
+                              productid: cartItem['product_id'],
+                              imageUrl: cartItem['imageUrl'],
+                              name: cartItem['name'],
+                              price: cartItem['price'],
+                              categoryItem: cartItem['categoryItem'],
+                              categoryBook: cartItem['categoryBook'],
+                              authorBook: cartItem['authorBook'],
+                              publishingYear: cartItem['publishingYear'],
+                              sizeBook: cartItem['sizeBook'],
+                              weightBook: cartItem['weightBook'],
+                              updateBook:
+                                  DateTime.parse(cartItem['updateBook']),
+                            );
+
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Text(cartItem['name']),
-                                      Text('${cartItem['price']} VNĐ'),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          IconButton(
-                                            icon: const Icon(Icons.remove),
-                                            onPressed: () {
-                                              if (cartItem['quantity'] > 1) {
-                                                updateCartItemQuantity(
-                                                  cartItem['product_id'],
-                                                  cartItem['quantity'] - 1,
-                                                );
-                                              }
-                                            },
-                                          ),
-                                          Text('${cartItem['quantity']}'),
-                                          IconButton(
-                                            icon: const Icon(Icons.add),
-                                            onPressed: () {
-                                              updateCartItemQuantity(
-                                                cartItem['product_id'],
-                                                cartItem['quantity'] + 1,
-                                              );
-                                            },
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            onPressed: () {
-                                              removeFromCart(
-                                                  cartItem['product_id']);
-                                            },
-                                          ),
-                                          Checkbox(
-                                            value: cartItem['isSelected'] ??
-                                                false, // Đảm bảo value không bị null
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                cartItem['isSelected'] =
-                                                    value ?? false;
-                                                calculateSelectedTotalAmount();
-                                              });
-                                            },
-                                          ),
-                                        ],
+                                      Checkbox(
+                                        value: cartItem['isSelected'] ?? false,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            cartItem['isSelected'] =
+                                                value ?? false;
+                                            calculateSelectedTotalAmount();
+                                          });
+                                        },
+                                        checkColor: Colors.white,
+                                        activeColor: const Color(0xFFEC8F5E),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Image.asset(
+                                        "assets/image/book/${product.imageUrl}",
+                                        width: 80,
+                                        height: 110,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              product.name,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Text(
+                                              '${product.price} VND',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    updateCartItemQuantity(
+                                                      product.productid,
+                                                      cartItem['quantity'] + 1,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: 28,
+                                                    height: 28,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: const Color(
+                                                          0xFFF3B664),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.add,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Text(
+                                                  '${cartItem['quantity']}',
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (cartItem['quantity'] >
+                                                        1) {
+                                                      updateCartItemQuantity(
+                                                        product.productid,
+                                                        cartItem['quantity'] -
+                                                            1,
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    width: 28,
+                                                    height: 28,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: const Color(
+                                                          0xFFF3B664),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.remove,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        onPressed: () {
+                                          removeFromCart(product.productid);
+                                        },
                                       ),
                                     ],
                                   ),
-                                );
-                              },
-                            ),
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 50.0, right: 50, left: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  const SizedBox(height: 8), // Optional spacing
+                                  const Divider(
+                                    color: Color(0xFFF3B664),
+                                    thickness: 2,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(
+                    //       bottom: 50, right: 50, left: 50),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           const Text(
+                    //             "Tổng thanh toán",
+                    //             style: TextStyle(
+                    //                 color: Colors.black, fontSize: 15),
+                    //           ),
+                    //           Text(
+                    //             '$totalAmount VND',
+                    //             style: const TextStyle(
+                    //               color: Colors.red,
+                    //               fontSize: 18,
+                    //               fontWeight: FontWeight.bold,
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       ElevatedButton(
+                    //         onPressed: () {
+                    //           // Handle payment action
+                    //         },
+                    //         style: ElevatedButton.styleFrom(
+                    //           backgroundColor:
+                    //               const Color(0xFFEC8F5E), // Background color
+                    //           minimumSize: const Size(150, 50),
+                    //         ),
+                    //         child: const Text(
+                    //           'Thanh toán',
+                    //           style: TextStyle(
+                    //             color: Colors.white,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 700,
+                child: Container(
+                  width: MediaQuery.of(context)
+                      .size
+                      .width, // Độ rộng bằng chiều rộng của màn hình
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Màu nền của background
+                  ),
+                  padding: const EdgeInsets.all(20), // Padding của Container
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Tổng thanh toán",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 15),
-                              ),
-                              Text(
-                                '$totalAmount VND',
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                          const Text(
+                            "Tổng thanh toán",
+                            style: TextStyle(color: Colors.black, fontSize: 15),
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Handle payment action
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color(0xFFEC8F5E), // Background color
-                                minimumSize: const Size(150, 50)),
-                            child: const Text(
-                              'Thanh toán',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                          Text(
+                            '$totalAmount VND',
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 40),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const OrderScreen(),
+                          //   ),
+                          // );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          backgroundColor: const Color(0xFFF3B664),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          fixedSize: const Size(183, 50),
+                        ),
+                        child: const Text(
+                          'Thanh toán',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
