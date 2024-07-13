@@ -4,7 +4,7 @@ import 'package:one_store/data/model/category_model.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 import 'girdproductitem.dart';
-import 'girdcategoryitem.dart';
+import 'categoryitem.dart';
 // import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'panner.dart';
 
@@ -36,158 +36,165 @@ class _HomeScreenState extends State<HomeScreen> {
           width: double.infinity,
           height: double.infinity,
           clipBehavior: Clip.none,
-          child: Stack(
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  "assets/layout/layout_2.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                // top: 10,
-                left: 30,
-                child: Image.asset(
-                  "assets/image/logo_2.png",
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Positioned(
-                top: 45,
-                right: 35,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    iconSize: 40,
-                    icon: const Icon(Icons.notifications,
-                        color: Color(0xFFFFFFFF)),
-                    onPressed: () {
-                      // Hành động khi nút được nhấn
-                    },
+          child: Container(
+            color: Color(0xFFEC8F5E),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  // top: 10,
+                  left: 30,
+                  child: Image.asset(
+                    "assets/image/logo_2.png",
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.contain,
                   ),
                 ),
-              ),
-              Positioned(
-                top: 100,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Positioned(
-                        top: 130, // Đặt top 150px để tạo khoảng cách
-                        left: 0,
-                        right: 0,
-                        child: CarouselSlider.builder(
-                          itemCount: imgList.length,
-                          itemBuilder: (context, index, realIndex) {
-                            final urlImage = imgList[index];
-                            return buildImage(urlImage, index, BoxFit.fill);
-                          },
-                          options: CarouselOptions(
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                carouselIndex = index;
-                              });
-                            },
+                Positioned(
+                  top: 45,
+                  right: 35,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      iconSize: 40,
+                      icon: const Icon(Icons.notifications,
+                          color: Color(0xFFFFFFFF)),
+                      onPressed: () {
+                        // Hành động khi nút được nhấn
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 130,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    color: Colors.white,
+                    child: SingleChildScrollView(
+                      child: Stack(children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.asset(
+                            "assets/layout/layout_2.png",
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemCount: categoriesGrid.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: GridItems(index),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 30.0, top: 15.0),
-                            child: Text(
-                              'Sản phẩm mới',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                        Column(
+                          children: <Widget>[
+                            Positioned(
+                              top: 130, // Đặt top 150px để tạo khoảng cách
+                              left: 0,
+                              right: 0,
+                              child: CarouselSlider.builder(
+                                itemCount: imgList.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  final urlImage = imgList[index];
+                                  return buildImage(
+                                      urlImage, index, BoxFit.fill);
+                                },
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      carouselIndex = index;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                          const Spacer(),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: 30.0, top: 15),
-                            child: InkWell(
-                              onTap: () {},
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    'Xem tất cả',
+                            SizedBox(
+                              height: 120.0, // Adjust the height as needed
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: categoriesGrid.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: ListItems(index),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 30.0, top: 15.0),
+                                  child: Text(
+                                    'Sản phẩm mới',
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(width: 4),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
+                                ),
+                                const Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 30.0, top: 15),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Text(
+                                          'Xem tất cả',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(width: 4),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 20,
+                            const SizedBox(height: 30),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20,
+                              ),
+                              itemCount: productsGrid.length > 6
+                                  ? 6
+                                  : productsGrid
+                                      .length, // Giới hạn số lượng hiển thị
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ProductDetail(
+                                              productsGrid[index]),
+                                        ));
+                                  },
+                                  child: GridProductItems(index),
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        itemCount: productsGrid.length > 6
-                            ? 6
-                            : productsGrid.length, // Giới hạn số lượng hiển thị
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetail(productsGrid[index]),
-                                  ));
-                            },
-                            child: GridProductItems(index),
-                          );
-                        },
-                      ),
-                    ],
+                      ]),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

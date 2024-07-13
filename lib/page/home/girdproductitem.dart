@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:one_store/data/model/category_model.dart';
 import 'package:one_store/data/model/product_model.dart';
-// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-// import 'homescreen.dart';
+import 'package:intl/intl.dart';
 
 class GridProductItems extends StatelessWidget {
   final int index;
@@ -42,7 +39,7 @@ class GridProductItems extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '${productsGrid[index].price} VND',
+            NumberFormat('###,###.###₫').format(productsGrid[index].price),
             style: const TextStyle(
               color: Colors.red,
               fontSize: 15,

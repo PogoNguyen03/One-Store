@@ -33,57 +33,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 70.0, bottom: 16.0, right: 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ElevatedButton(
-                        onPressed: () {
-                          // Xử lý khi nút đăng ký được nhấn
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(130, 20),
-                          backgroundColor: const Color(0xFFF3B664),
-                        ),
-                        child: const Text(
-                          'Đăng ký',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Xử lý khi nút đăng nhập được nhấn
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(130, 20),
-                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                        ),
-                        child: const Text(
-                          'Đăng nhập',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.bottomRight,
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(
+              //         top: 70.0, bottom: 16.0, right: 10.0),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: <Widget>[
+              //         ElevatedButton(
+              //           onPressed: () {
+              //             // Xử lý khi nút đăng ký được nhấn
+              //             Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                 builder: (context) => const RegisterScreen(),
+              //               ),
+              //             );
+              //           },
+              //           style: ElevatedButton.styleFrom(
+              //             fixedSize: const Size(130, 20),
+              //             backgroundColor: const Color(0xFFF3B664),
+              //           ),
+              //           child: const Text(
+              //             'Đăng ký',
+              //             style: TextStyle(color: Colors.white),
+              //           ),
+              //         ),
+              //         const SizedBox(width: 15),
+              //         ElevatedButton(
+              //           onPressed: () {
+              //             // Xử lý khi nút đăng nhập được nhấn
+              //             Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                 builder: (context) => const LoginScreen(),
+              //               ),
+              //             );
+              //           },
+              //           style: ElevatedButton.styleFrom(
+              //             fixedSize: const Size(130, 20),
+              //             backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+              //           ),
+              //           child: const Text(
+              //             'Đăng nhập',
+              //             style: TextStyle(color: Colors.white),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.only(left: 30.0, right: 100.0),
@@ -357,6 +357,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: 40),
+                      Center(
+                        child: InkWell(
+                          onTap: () {
+                            // Điều hướng đến trang "Tôi quên mật khẩu"
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()),
+                            );
+                          },
+                          child: const Text(
+                            'Bạn đã có tài khoản?',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

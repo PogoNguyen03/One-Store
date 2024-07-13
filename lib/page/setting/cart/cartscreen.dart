@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
+import 'package:intl/intl.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -166,18 +167,18 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Checkbox(
-                                        value: cartItem['isSelected'] ?? false,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            cartItem['isSelected'] =
-                                                value ?? false;
-                                            calculateSelectedTotalAmount();
-                                          });
-                                        },
-                                        checkColor: Colors.white,
-                                        activeColor: const Color(0xFFEC8F5E),
-                                      ),
+                                      // Checkbox(
+                                      //   value: cartItem['isSelected'] ?? false,
+                                      //   onChanged: (bool? value) {
+                                      //     setState(() {
+                                      //       cartItem['isSelected'] =
+                                      //           value ?? false;
+                                      //       calculateSelectedTotalAmount();
+                                      //     });
+                                      //   },
+                                      //   checkColor: Colors.white,
+                                      //   activeColor: const Color(0xFFEC8F5E),
+                                      // ),
                                       const SizedBox(width: 12),
                                       Image.asset(
                                         "assets/image/book/${product.imageUrl}",
@@ -202,7 +203,8 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
                                             const SizedBox(height: 6),
                                             Text(
-                                              '${product.price} VND',
+                                              NumberFormat('###,###.###₫')
+                                                  .format(product.price),
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
@@ -362,7 +364,7 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(color: Colors.black, fontSize: 15),
                           ),
                           Text(
-                            '$totalAmount VND',
+                            NumberFormat('###,###.###₫').format(totalAmount),
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 18,

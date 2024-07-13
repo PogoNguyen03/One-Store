@@ -116,54 +116,54 @@ class _LoginScreenState extends State<LoginScreen> {
                       fit: BoxFit.cover, // Hình ảnh sẽ được kéo giãn để phủ kín
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 50.0, bottom: 16.0, right: 10.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                //Login method will be here
-                                login();
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: Size(130, 20), // Đặt kích thước 100x50
-                              backgroundColor: const Color(0xFFF3B664),
-                            ),
-                            child: const Text(
-                              'Đăng nhập',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          const SizedBox(width: 15), // Khoảng cách giữa hai nút
-                          ElevatedButton(
-                            onPressed: () {
-                              // Xử lý khi nút đăng ký được nhấn
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterScreen()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: Size(130, 20), // Đặt kích thước 100x50
-                              backgroundColor:
-                                  Color.fromARGB(255, 255, 255, 255),
-                            ),
-                            child: const Text(
-                              'Đăng ký',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.bottomRight,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(
+                  //         top: 50.0, bottom: 16.0, right: 10.0),
+                  //     child: Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: <Widget>[
+                  //         ElevatedButton(
+                  //           onPressed: () {
+                  //             if (formKey.currentState!.validate()) {
+                  //               //Login method will be here
+                  //               login();
+                  //             }
+                  //           },
+                  //           style: ElevatedButton.styleFrom(
+                  //             fixedSize: Size(130, 20), // Đặt kích thước 100x50
+                  //             backgroundColor: const Color(0xFFF3B664),
+                  //           ),
+                  //           child: const Text(
+                  //             'Đăng nhập',
+                  //             style: TextStyle(color: Colors.white),
+                  //           ),
+                  //         ),
+                  //         const SizedBox(width: 15), // Khoảng cách giữa hai nút
+                  //         ElevatedButton(
+                  //           onPressed: () {
+                  //             // Xử lý khi nút đăng ký được nhấn
+                  //             Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) => RegisterScreen()),
+                  //             );
+                  //           },
+                  //           style: ElevatedButton.styleFrom(
+                  //             fixedSize: Size(130, 20), // Đặt kích thước 100x50
+                  //             backgroundColor:
+                  //                 Color.fromARGB(255, 255, 255, 255),
+                  //           ),
+                  //           child: const Text(
+                  //             'Đăng ký',
+                  //             style: TextStyle(color: Colors.black),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(height: 30),
@@ -317,15 +317,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         style: ButtonStyle(
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xFFEC8F5E)),
+                          backgroundColor:
+                              WidgetStateProperty.all<Color>(Color(0xFFEC8F5E)),
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
+                              WidgetStateProperty.all<Color>(Colors.white),
                         ),
                         child: const Text(
                           'ĐĂNG NHẬP',
@@ -335,70 +335,88 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     const SizedBox(height: 30),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left:
-                                        60.0), // Thay đổi giá trị 8.0 để điều chỉnh padding bên trái
-                                child: Divider(
-                                  color: Colors.black,
-                                  thickness: 2,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('Đăng nhập với',
-                                  style: TextStyle(fontSize: 16)),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    right:
-                                        60.0), // Thay đổi giá trị 8.0 để điều chỉnh padding bên trái
-                                child: Divider(
-                                  color: Colors.black,
-                                  thickness: 2,
-                                ),
-                              ),
-                            ),
-                          ],
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          // Điều hướng đến trang "Tôi quên mật khẩu"
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterScreen()),
+                          );
+                        },
+                        child: const Text(
+                          'Bạn chưa có tài khoản?',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
-                        const SizedBox(
-                            height: 10), // Khoảng cách giữa chữ và nút
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                // Xử lý đăng nhập với Facebook
-                              },
-                              child: Image.asset(
-                                'assets/image/Facebook.png',
-                                width: 100,
-                                height: 100,
-                              ),
-                            ),
-                            const SizedBox(width: 30),
-                            InkWell(
-                              onTap: () {
-                                // Xử lý đăng nhập với Google
-                              },
-                              child: Image.asset(
-                                'assets/image/Google.png',
-                                width: 100,
-                                height: 100,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
+                    // Column(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     const Row(
+                    //       children: <Widget>[
+                    //         Expanded(
+                    //           child: Padding(
+                    //             padding: EdgeInsets.only(
+                    //                 left:
+                    //                     60.0), // Thay đổi giá trị 8.0 để điều chỉnh padding bên trái
+                    //             child: Divider(
+                    //               color: Colors.black,
+                    //               thickness: 2,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //         Padding(
+                    //           padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    //           child: Text('Đăng nhập với',
+                    //               style: TextStyle(fontSize: 16)),
+                    //         ),
+                    //         Expanded(
+                    //           child: Padding(
+                    //             padding: EdgeInsets.only(
+                    //                 right:
+                    //                     60.0), // Thay đổi giá trị 8.0 để điều chỉnh padding bên trái
+                    //             child: Divider(
+                    //               color: Colors.black,
+                    //               thickness: 2,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     // const SizedBox(
+                    //     //     height: 10), // Khoảng cách giữa chữ và nút
+                    //     // Row(
+                    //     //   mainAxisAlignment: MainAxisAlignment.center,
+                    //     //   children: <Widget>[
+                    //     //     InkWell(
+                    //     //       onTap: () {
+                    //     //         // Xử lý đăng nhập với Facebook
+                    //     //       },
+                    //     //       child: Image.asset(
+                    //     //         'assets/image/Facebook.png',
+                    //     //         width: 100,
+                    //     //         height: 100,
+                    //     //       ),
+                    //     //     ),
+                    //     //     const SizedBox(width: 30),
+                    //     //     InkWell(
+                    //     //       onTap: () {
+                    //     //         // Xử lý đăng nhập với Google
+                    //     //       },
+                    //     //       child: Image.asset(
+                    //     //         'assets/image/Google.png',
+                    //     //         width: 100,
+                    //     //         height: 100,
+                    //     //       ),
+                    //     //     ),
+                    //     //   ],
+                    //     // ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
