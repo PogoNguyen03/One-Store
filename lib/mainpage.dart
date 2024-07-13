@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/users.dart';
-import 'package:one_store/page/setting/cart/cartscreen.dart';
+import 'package:one_store/page/cart/cartscreen.dart';
 import 'package:one_store/page/favourite/favouritescreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
@@ -49,6 +49,13 @@ class _MainpageState extends State<Mainpage> {
     {'icon': Icons.dehaze, 'label': 'Setting'},
   ];
 
+  void navigateToHomeScreen() {
+    _pageController.jumpToPage(0); // Chuyển đến trang HomeScreen
+    setState(() {
+      _selectedIndex = 0; // Cập nhật chỉ số activeIndex
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +66,7 @@ class _MainpageState extends State<Mainpage> {
             _selectedIndex = index;
           });
         },
-        children: _widgetOptions(widget.user), // Truyền user vào _widgetOptions
+        children: _widgetOptions(widget.user), // Các màn hình hiển thị
       ),
       bottomNavigationBar: CircleNavBar(
         onTap: (index) {

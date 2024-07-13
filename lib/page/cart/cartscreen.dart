@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:intl/intl.dart';
+import 'package:one_store/page/cart/orderscreen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -19,6 +20,8 @@ class _CartScreenState extends State<CartScreen> {
   List<Map<String, dynamic>> cartItems =
       []; // List to store cart items from SQLite
   double totalAmount = 0; // Total amount of items in cart
+  int totalQuantity = 0;
+  int distinctProductCount = 0;
 
   @override
   void initState() {
@@ -32,6 +35,8 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       cartItems = items;
       calculateTotalAmount();
+      calculateTotalQuantity();
+      calculateDistinctProductCount();
     });
   }
 
@@ -42,6 +47,17 @@ class _CartScreenState extends State<CartScreen> {
       (previousValue, item) =>
           previousValue + (item['price'] * item['quantity']),
     );
+  }
+
+  void calculateTotalQuantity() {
+    totalQuantity = cartItems.fold(
+      0,
+      (previousValue, item) => previousValue + item['quantity'] as int,
+    );
+  }
+
+  void calculateDistinctProductCount() {
+    distinctProductCount = cartItems.length;
   }
 
   // Method to remove item from cart
@@ -376,12 +392,16 @@ class _CartScreenState extends State<CartScreen> {
                       const SizedBox(width: 40),
                       ElevatedButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const OrderScreen(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OrderScreen(
+                                totalQuantity: totalQuantity,
+                                totalAmount: totalAmount,
+                                distinctProductCount: distinctProductCount,
+                              ),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 15),
