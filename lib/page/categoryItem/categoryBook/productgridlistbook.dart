@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 
-class ProductGrid extends StatelessWidget {
+class ProductGrid extends StatefulWidget {
   final List<ProductModel> products;
-
   ProductGrid({required this.products});
+  @override
+  _ProductGridState createState() => _ProductGridState();
+}
+
+class _ProductGridState extends State<ProductGrid> {
+  List<ProductModel> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProductsFromDatabase();
+  }
+
+  Future<void> _fetchProductsFromDatabase() async {
+    DatabaseHelper dbHelper = DatabaseHelper();
+    List<ProductModel> fetchedProducts = await dbHelper
+        .getProductsFromDatabase(); // Thay phương thức lấy sản phẩm từ SQLite tại đây
+    setState(() {
+      products = fetchedProducts;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +39,10 @@ class ProductGrid extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.all(10),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Số cột
-                crossAxisSpacing: 10, // Khoảng cách giữa các cột
-                mainAxisSpacing: 10, // Khoảng cách giữa các hàng
-                childAspectRatio:
-                    3 / 4, // Tỷ lệ chiều rộng / chiều cao của một ô
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 3 / 4,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
@@ -44,15 +64,14 @@ class ProductGrid extends StatelessWidget {
                           height: 254,
                           width: 150,
                           decoration: BoxDecoration(
-                            color: Colors.white, // Đặt màu nền ở đây
-                            borderRadius: BorderRadius.circular(
-                                10.0), // Điều chỉnh bán kính bo góc ở đây
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.1),
                                 spreadRadius: 1,
                                 blurRadius: 5,
-                                offset: Offset(0, 3), // Điều chỉnh bóng đổ
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
@@ -63,11 +82,10 @@ class ProductGrid extends StatelessWidget {
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10.0),
                                   topRight: Radius.circular(10.0),
-                                ), // Điều chỉnh bán kính bo góc trên cùng
+                                ),
                                 child: SizedBox(
-                                  height: 170, // Chiều cao cố định của hình ảnh
-                                  width: double
-                                      .infinity, // Chiều rộng chiếm toàn bộ ô lưới
+                                  height: 170,
+                                  width: double.infinity,
                                   child: Image.asset(
                                     'assets/image/book/${product.imageUrl}',
                                     fit: BoxFit.cover,
@@ -88,9 +106,8 @@ class ProductGrid extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                         ),
-                                        maxLines: 1, // Giới hạn số dòng là 2
-                                        overflow: TextOverflow
-                                            .ellipsis, // Thêm dấu "..."
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                       const SizedBox(height: 10),
                                       Text(

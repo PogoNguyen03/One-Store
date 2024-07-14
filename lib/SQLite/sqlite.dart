@@ -3,17 +3,24 @@ import 'package:one_store/data/model/product_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:one_store/data/model/users.dart';
-// import 'package:one_store/data/model/note_model.dart';
 
 class DatabaseHelper {
   final databaseName = "notes.db";
-  // String noteTable =
-  //     "CREATE TABLE notes (noteId INTEGER PRIMARY KEY AUTOINCREMENT, noteTitle TEXT NOT NULL, noteContent TEXT NOT NULL, createdAt TEXT DEFAULT CURRENT_TIMESTAMP)";
 
-  //Now we must create our user table into our sqlite db
-
-  String user =
-      "create table users (usrId INTEGER PRIMARY KEY AUTOINCREMENT, usrName TEXT UNIQUE,fullname TEXT UNIQUE,usrPassword TEXT, phoneNumber TEXT, address TEXT, gmail TEXT, usrBirday TEXT, isDefault INTEGER, usrImage TEXT)";
+  String userTable = '''
+  CREATE TABLE IF NOT EXISTS users (
+    usrId INTEGER PRIMARY KEY AUTOINCREMENT,
+    usrName TEXT UNIQUE,
+    fullname TEXT UNIQUE,
+    usrPassword TEXT,
+    phoneNumber TEXT,
+    address TEXT,
+    gmail TEXT,
+    usrBirday TEXT,
+    isDefault INTEGER,
+    usrImage TEXT
+  )
+  ''';
 
   String cartItemsTable = '''
   CREATE TABLE IF NOT EXISTS product_model (
@@ -31,7 +38,7 @@ class DatabaseHelper {
     weightBook TEXT NOT NULL,
     updateBook TEXT NOT NULL
   )
-''';
+  ''';
 
   String addressesTable = '''
   CREATE TABLE IF NOT EXISTS addresses (
@@ -41,47 +48,93 @@ class DatabaseHelper {
     district TEXT NOT NULL,
     ward TEXT NOT NULL
   )
-''';
+  ''';
 
-  //We are done in this section
+  String ordersTable = '''
+  CREATE TABLE IF NOT EXISTS orders (
+    order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    total_quantity INTEGER NOT NULL,
+    total_amount REAL NOT NULL,
+    shipping_fee REAL NOT NULL,
+    order_date TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (usrId)
+  )
+  ''';
+
+  String productsTable = '''
+  CREATE TABLE IF NOT EXISTS product_model (
+    product_id TEXT PRIMARY KEY,
+    imageUrl TEXT,
+    name TEXT,
+    price REAL,
+    quantity REAL,
+    categoryItem TEXT,
+    categoryBook TEXT,
+    authorBook TEXT,
+    publishingYear TEXT,
+    sizeBook TEXT,
+    weightBook TEXT,
+    updateBook TEXT
+  )
+  ''';
+
+  //thêm sản phẩm
+  Future<int> addProduct(ProductModel product) async {
+    final db = await initDB();
+    return await db.insert('product_model', {
+      'product_id': product.productid,
+      'imageUrl': product.imageUrl,
+      'name': product.name,
+      'price': product.price,
+      'quantity': product.quantity,
+      'categoryItem': product.categoryItem,
+      'categoryBook': product.categoryBook,
+      'authorBook': product.authorBook,
+      'publishingYear': product.publishingYear,
+      'sizeBook': product.sizeBook,
+      'weightBook': product.weightBook,
+      'updateBook': product.updateBook.toIso8601String(),
+    });
+  }
 
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
     print('Đường dẫn database: $path');
-    // Xóa cơ sở dữ liệu hiện tại (nếu cần)
-    // await deleteDatabase(path);
 
     return openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(user); // Tạo bảng users
-      await db
-          .execute(cartItemsTable); // Tạo bảng product_model (nếu chưa tồn tại)
-      await db.execute(addressesTable);
+      await db.execute(userTable); // Create user table
+      await db.execute(cartItemsTable); // Create cart items table
+      await db.execute(addressesTable); // Create addresses table
+      await db.execute(productsTable); //create product table
+      await db.execute(ordersTable); // Create orders table
+
+      // Insert default admin user
+      await db.insert('users', {
+        'usrName': 'admin',
+        'usrPassword': 'admin',
+        'fullname': 'Administrator',
+        'phoneNumber': '123456789',
+        'address': 'Admin Address',
+        'gmail': 'admin@example.com',
+        'usrBirday': '1970-01-01',
+        'isDefault': 1,
+        'usrImage': ''
+      });
     });
   }
-
-  //Now we create login and sign up method
-  //as we create sqlite other functionality in our previous video
-
-  //IF you didn't watch my previous videos, check part 1 and part 2
-
-  //Login Method
 
   Future<bool> login(Users user) async {
     final Database db = await initDB();
 
-    // I forgot the password to check
     var result = await db.rawQuery(
-        "select * from users where usrName = '${user.usrName}' AND usrPassword = '${user.usrPassword}'");
-    if (result.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
+        "SELECT * FROM users WHERE usrName = ? AND usrPassword = ?",
+        [user.usrName, user.usrPassword]);
+    return result.isNotEmpty;
   }
 
-  //Sign up
   Future<int> signup(Users user) async {
     final Database db = await initDB();
 
@@ -92,7 +145,7 @@ class DatabaseHelper {
     final Database db = await initDB();
 
     var result =
-        await db.rawQuery("SELECT * FROM users WHERE usrName = '$userName'");
+        await db.rawQuery("SELECT * FROM users WHERE usrName = ?", [userName]);
     if (result.isNotEmpty) {
       return Users.fromMap(result.first);
     } else {
@@ -100,16 +153,14 @@ class DatabaseHelper {
     }
   }
 
-  // Xác nhận số điện thoại và tạo mật khẩu mới
   Future<bool> confirmPhoneNumber(String phoneNumber) async {
     final Database db = await initDB();
 
     var result = await db
-        .rawQuery("SELECT * FROM users WHERE phoneNumber = '$phoneNumber'");
+        .rawQuery("SELECT * FROM users WHERE phoneNumber = ?", [phoneNumber]);
     return result.isNotEmpty;
   }
 
-  //thay đổi mật khẩu trong trong trang đăng nhập
   Future<int> updatePassword(String phoneNumber, String newPassword) async {
     final Database db = await initDB();
 
@@ -117,7 +168,6 @@ class DatabaseHelper {
         where: 'phoneNumber = ?', whereArgs: [phoneNumber]);
   }
 
-  // gọi tên người dùng dùng
   Future<Users?> getUserByUsername(String username) async {
     final Database db = await initDB();
 
@@ -131,7 +181,6 @@ class DatabaseHelper {
     }
   }
 
-  //cập nhật dữ liệu trong profile người dùng
   Future<int> updateUser(Users user) async {
     final Database db = await initDB();
     return await db.update(
@@ -142,7 +191,6 @@ class DatabaseHelper {
     );
   }
 
-  //cập nhật hình ảnh
   Future<int> saveUserImage(int userId, String imagePath) async {
     final Database db = await initDB();
 
@@ -163,16 +211,14 @@ class DatabaseHelper {
     }
   }
 
-  // Thêm sản phẩm vào giỏ hàng
   Future<int> addToCart(ProductModel product, int quantity) async {
     final db = await initDB();
 
-    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
     var cartItem = await db.rawQuery(
-        "SELECT * FROM product_model WHERE product_id = '${product.productid}'");
+        "SELECT * FROM product_model WHERE product_id = ?",
+        [product.productid]);
 
     if (cartItem.isNotEmpty) {
-      // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
       int newQuantity =
           int.parse(cartItem.first['quantity'].toString()) + quantity;
 
@@ -180,7 +226,6 @@ class DatabaseHelper {
           "UPDATE product_model SET quantity = ? WHERE product_id = ?",
           [newQuantity, product.productid]);
     } else {
-      // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
       return await db.insert('product_model', {
         'product_id': product.productid,
         'name': product.name,
@@ -193,20 +238,17 @@ class DatabaseHelper {
         'publishingYear': product.publishingYear,
         'sizeBook': product.sizeBook,
         'weightBook': product.weightBook,
-        'updateBook':
-            product.updateBook.toIso8601String(), // Convert DateTime to string
+        'updateBook': product.updateBook.toIso8601String(),
       });
     }
   }
 
-  // Xóa sản phẩm khỏi giỏ hàng
   Future<int> removeFromCart(String productId) async {
     final db = await initDB();
     return await db.delete('product_model',
         where: 'product_id = ?', whereArgs: [productId]);
   }
 
-  // Cập nhật số lượng sản phẩm trong giỏ hàng
   Future<int> updateCartItemQuantity(String productId, int newQuantity) async {
     final db = await initDB();
     return await db.rawUpdate(
@@ -214,13 +256,11 @@ class DatabaseHelper {
         [newQuantity, productId]);
   }
 
-  // Lấy danh sách sản phẩm trong giỏ hàng
   Future<List<Map<String, dynamic>>> getCartItems() async {
     final db = await initDB();
     return await db.query('product_model');
   }
 
-  // Tính tổng số tiền của giỏ hàng
   Future<double> calculateTotalAmount() async {
     final db = await initDB();
     var result = await db
@@ -228,16 +268,13 @@ class DatabaseHelper {
     return (result.first['total'] ?? 0.0) as double;
   }
 
-  // Method to save favorite status
   Future<int> saveFavoriteStatus(String productId, bool isFavorite) async {
     final db = await initDB();
 
-    // Check if the product already exists
     var result = await db.rawQuery(
-        "SELECT * FROM product_model WHERE product_id = '$productId'");
+        "SELECT * FROM product_model WHERE product_id = ?", [productId]);
 
     if (result.isNotEmpty) {
-      // Update existing record
       return await db.update(
           'product_model',
           {
@@ -246,7 +283,6 @@ class DatabaseHelper {
           where: 'product_id = ?',
           whereArgs: [productId]);
     } else {
-      // Insert new record
       return await db.insert('product_model', {
         'product_id': productId,
         'isSelected': isFavorite ? 1 : 0,
@@ -254,7 +290,6 @@ class DatabaseHelper {
     }
   }
 
-  //truy cập trang địa chỉ trong setting
   Future<List<Address>> getAddresses() async {
     final db = await initDB();
     var result = await db.query('addresses');
@@ -266,5 +301,28 @@ class DatabaseHelper {
   Future<int> insertAddress(Address address) async {
     final db = await initDB();
     return await db.insert('addresses', address.toMap());
+  }
+
+  //gọi sản phẩm
+  Future<List<ProductModel>> getProductsFromDatabase() async {
+    final db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query('product_model');
+
+    return List.generate(maps.length, (i) {
+      return ProductModel(
+        productid: maps[i]['product_id'],
+        imageUrl: maps[i]['imageUrl'],
+        name: maps[i]['name'],
+        price: maps[i]['price'],
+        quantity: maps[i]['quantity'],
+        categoryItem: maps[i]['categoryItem'],
+        categoryBook: maps[i]['categoryBook'],
+        authorBook: maps[i]['authorBook'],
+        publishingYear: maps[i]['publishingYear'],
+        sizeBook: maps[i]['sizeBook'],
+        weightBook: maps[i]['weightBook'],
+        updateBook: DateTime.parse(maps[i]['updateBook']),
+      );
+    });
   }
 }

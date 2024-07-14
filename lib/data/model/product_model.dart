@@ -11,7 +11,7 @@ class ProductModel {
       sizeBook,
       weightBook;
   double price;
-  double quantity;
+  int quantity;
   DateTime updateBook;
 
   ProductModel({
