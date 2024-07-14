@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_store/page/admin/product/productadd.dart';
+import 'package:one_store/page/admin/category/categorylist.dart';
+import 'package:one_store/page/admin/product/productlist.dart';
 
 class AdminPage extends StatelessWidget {
   @override
@@ -18,10 +19,19 @@ class AdminPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProductAdminPage()),
+                  MaterialPageRoute(builder: (context) => ProductList()),
                 );
               },
               child: Text('Add New Product'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CategoryListPage()),
+                );
+              },
+              child: Text('Categories'),
             ),
           ],
         ),

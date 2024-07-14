@@ -1,32 +1,22 @@
-class CategoryModel {
-  String categoryid, imageUrl, name;
+class CategoryBookModel {
+  String categoryBookid, name;
 
-  CategoryModel({
-    required this.categoryid,
-    required this.imageUrl,
+  CategoryBookModel({
+    required this.categoryBookid,
     required this.name,
   });
-}
 
-List<CategoryModel> categoriesGrid = [
-  CategoryModel(
-    categoryid: "1",
-    imageUrl: "Ruler.png",
-    name: "Văn phòng phẩm",
-  ),
-  CategoryModel(
-    categoryid: "2",
-    imageUrl: "Open_Book.png",
-    name: "Sách",
-  ),
-  CategoryModel(
-    categoryid: "3",
-    imageUrl: "Discount.png",
-    name: "Khuyến mãi",
-  ),
-  CategoryModel(
-    categoryid: "4",
-    imageUrl: "New.png",
-    name: "Sản phẩm mới",
-  ),
-];
+  Map<String, dynamic> toMap() {
+    return {
+      'categoryBookid': categoryBookid,
+      'name': name,
+    };
+  }
+
+  factory CategoryBookModel.fromMap(Map<String, dynamic> map) {
+    return CategoryBookModel(
+      categoryBookid: map['categoryBookid'],
+      name: map['name'],
+    );
+  }
+}

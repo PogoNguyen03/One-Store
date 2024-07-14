@@ -86,8 +86,8 @@ class _ProductGridState extends State<ProductGrid> {
                                 child: SizedBox(
                                   height: 170,
                                   width: double.infinity,
-                                  child: Image.asset(
-                                    'assets/image/book/${product.imageUrl}',
+                                  child: Image.network(
+                                    product.imageUrl!,
                                     fit: BoxFit.cover,
                                   ),
                                 ),

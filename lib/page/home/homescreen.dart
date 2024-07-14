@@ -105,19 +105,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 120.0, // Adjust the height as needed
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: categoriesGrid.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {},
-                                    child: ListItems(index),
-                                  );
-                                },
-                              ),
-                            ),
+
+                            // SizedBox(
+                            //   height: 120.0, // Adjust the height as needed
+                            //   child: ListView.builder(
+                            //     scrollDirection: Axis.horizontal,
+                            //     itemCount: categoriesGrid.length,
+                            //     itemBuilder: (context, index) {
+                            //       return GestureDetector(
+                            //         onTap: () {},
+                            //         child: ListItems(index),
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
+
                             const SizedBox(height: 20),
                             Row(
                               children: [

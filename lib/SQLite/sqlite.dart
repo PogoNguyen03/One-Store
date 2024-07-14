@@ -1,4 +1,5 @@
 import 'package:one_store/data/model/address.dart';
+import 'package:one_store/data/model/category_model.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -79,6 +80,13 @@ class DatabaseHelper {
   )
   ''';
 
+  String categoriesTable = '''
+  CREATE TABLE IF NOT EXISTS categories (
+    categoryBookid TEXT PRIMARY KEY,
+    name TEXT NOT NULL
+  )
+  ''';
+
   //thêm sản phẩm
   Future<int> addProduct(ProductModel product) async {
     final db = await initDB();
@@ -108,9 +116,9 @@ class DatabaseHelper {
       await db.execute(userTable); // Create user table
       await db.execute(cartItemsTable); // Create cart items table
       await db.execute(addressesTable); // Create addresses table
-      await db.execute(productsTable); //create product table
+      await db.execute(productsTable); // Create products table
       await db.execute(ordersTable); // Create orders table
-
+      await db.execute(categoriesTable); // Create categories table
       // Insert default admin user
       await db.insert('users', {
         'usrName': 'admin',
@@ -322,6 +330,24 @@ class DatabaseHelper {
         sizeBook: maps[i]['sizeBook'],
         weightBook: maps[i]['weightBook'],
         updateBook: DateTime.parse(maps[i]['updateBook']),
+      );
+    });
+  }
+
+  //Thể loại
+  Future<int> addCategory(CategoryBookModel category) async {
+    final db = await initDB();
+    return await db.insert('categories', category.toMap());
+  }
+
+  Future<List<CategoryBookModel>> getCategories() async {
+    final db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query('categories');
+
+    return List.generate(maps.length, (i) {
+      return CategoryBookModel(
+        categoryBookid: maps[i]['categoryBookid'],
+        name: maps[i]['name'],
       );
     });
   }

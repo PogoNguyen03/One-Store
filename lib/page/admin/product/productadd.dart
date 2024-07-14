@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
 
-class ProductAdminPage extends StatefulWidget {
+class ProductAdd extends StatefulWidget {
   @override
-  _ProductAdminPageState createState() => _ProductAdminPageState();
+  _ProductAddState createState() => _ProductAddState();
 }
 
-class _ProductAdminPageState extends State<ProductAdminPage> {
+class _ProductAddState extends State<ProductAdd> {
   final _formKey = GlobalKey<FormState>();
   final _databaseHelper = DatabaseHelper();
 

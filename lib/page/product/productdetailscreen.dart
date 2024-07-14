@@ -3,36 +3,25 @@ import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/favoritebutton.dart';
 
-import '../../data/model/category_book_model.dart';
-// import 'package:one_store/globals.dart'; // Import tệp tin toàn cục
-
 class ProductDetail extends StatefulWidget {
   final ProductModel product;
 
   const ProductDetail(this.product, {super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _ProductDetailState createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  // int _selectedIndex = 0;
-  // int _cartItemCount = 0;
-  // Biến lưu trạng thái yêu thích
-  // bool isFavorite = false;
-  // Danh sách các sản phẩm yêu thích
-  // List<ProductModel> favoriteProducts = [];
-  final DatabaseHelper _dbHelper =
-      DatabaseHelper(); // Thể hiện của DatabaseHelper
+  final DatabaseHelper _dbHelper = DatabaseHelper();
+
   void addToCart(ProductModel product) {
     _dbHelper.addToCart(product, 1).then((value) {
-      // Xử lý sau khi thêm vào giỏ hàng thành công
       if (value > 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Đã thêm vào giỏ hàng'),
-            duration: Duration(seconds: 2), // Thời gian hiển thị của SnackBar
+            duration: Duration(seconds: 2),
           ),
         );
       }
@@ -108,10 +97,9 @@ class _ProductDetailState extends State<ProductDetail> {
                       const Padding(padding: EdgeInsets.only(top: 200)),
                       Center(
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              20.0), // Điều chỉnh bán kính bo góc
-                          child: Image.asset(
-                            "assets/image/book/${widget.product.imageUrl}",
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Image.network(
+                            widget.product.imageUrl ?? '',
                             fit: BoxFit.cover,
                             height: 250,
                             width: 200,
@@ -156,24 +144,22 @@ class _ProductDetailState extends State<ProductDetail> {
                 height: 47,
                 child: ElevatedButton(
                   onPressed: () {
-                    addToCart(widget
-                        .product); // Gọi hàm khi nhấn nút "Thêm vào giỏ hàng"
+                    addToCart(widget.product);
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Đặt bán kính bo góc là 10.0
+                        borderRadius: BorderRadius.circular(10.0),
                         side: const BorderSide(
                           color: Color(0xFFEC8F5E),
                           width: 2,
-                        ), // Viền là màu cam
+                        ),
                       ),
                     ),
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white), // Màu nền là màu trắng
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
                     foregroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFFEC8F5E)), // Màu chữ là màu cam
+                        const Color(0xFFEC8F5E)),
                   ),
                   child: const Text('Thêm vào giỏ hàng'),
                 ),
@@ -193,7 +179,7 @@ class _ProductDetailState extends State<ProductDetail> {
         children: [
           Center(
             child: Text(
-              product.name,
+              product.name ?? '',
               style: const TextStyle(
                 fontSize: 21,
                 fontWeight: FontWeight.bold,
@@ -202,11 +188,11 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
           const SizedBox(height: 20),
           buildInfoRow('Thể loại:', getCategoryBookName(product.categoryBook)),
-          buildInfoRow('Tác giả:', product.authorBook),
-          buildInfoRow('Năm XB:', product.publishingYear),
+          buildInfoRow('Tác giả:', product.authorBook ?? ''),
+          buildInfoRow('Năm XB:', product.publishingYear ?? ''),
           buildInfoRow('Giá bán:', '${product.price} VNĐ', isPrice: true),
-          buildInfoRow('Kích thước:', product.sizeBook),
-          buildInfoRow('Trọng lượng:', product.weightBook),
+          buildInfoRow('Kích thước:', product.sizeBook ?? ''),
+          buildInfoRow('Trọng lượng:', product.weightBook ?? ''),
         ],
       ),
     );
@@ -247,15 +233,13 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget buildDescriptionSection(ProductModel product) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text('Mô tả sản phẩm: Đây là mô tả của sản phẩm ${product.name}.'),
+      child: Text(
+          'Mô tả sản phẩm: Đây là mô tả của sản phẩm ${product.name ?? ''}.'),
     );
   }
 
   String getCategoryBookName(String categoryBookId) {
-    CategoryBookModel? categoryBook = categoryBookGrid.firstWhere(
-      (category) => category.categoryBookid == categoryBookId,
-      orElse: () => CategoryBookModel(categoryBookid: '', name: 'Unknown'),
-    );
-    return categoryBook.name;
+    // Replace this logic with your actual category fetching logic
+    return 'Unknown';
   }
 }
