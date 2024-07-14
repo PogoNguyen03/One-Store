@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/page/admin/adminscreen';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_store/page/register/registerscreen.dart';
 import 'package:one_store/page/login/forgetpass.dart';
@@ -43,9 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() async {
-    var response = await db
-        .login(Users(usrName: username.text, usrPassword: password.text));
-    if (response) {
+    // Kiểm tra thông tin đăng nhập admin mặc định
+    if (username.text == 'admin' && password.text == 'admin') {
       // Lưu thông tin tài khoản nếu người dùng chọn "Nhớ tôi"
       if (isRememberMe) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -53,26 +53,43 @@ class _LoginScreenState extends State<LoginScreen> {
         prefs.setString('password', password.text);
       }
 
-      // Lấy thông tin user từ SQLite
-      Users? user = await db.getUserByName(username.text);
-      if (user != null) {
-        // Điều hướng đến Mainpage và truyền user
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Mainpage(user: user)),
-        );
+      // Điều hướng đến trang admin
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AdminPage()),
+      );
+    } else {
+      var response = await db
+          .login(Users(usrName: username.text, usrPassword: password.text));
+      if (response) {
+        // Lưu thông tin tài khoản nếu người dùng chọn "Nhớ tôi"
+        if (isRememberMe) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('username', username.text);
+          prefs.setString('password', password.text);
+        }
+
+        // Lấy thông tin user từ SQLite
+        Users? user = await db.getUserByName(username.text);
+        if (user != null) {
+          // Điều hướng đến Mainpage và truyền user
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Mainpage(user: user)),
+          );
+        } else {
+          // Xử lý trường hợp không tìm thấy user
+          setState(() {
+            isLoginTrue = true;
+          });
+          showAlertDialog(context, "Tài khoản không tồn tại");
+        }
       } else {
-        // Xử lý trường hợp không tìm thấy user
         setState(() {
           isLoginTrue = true;
         });
-        showAlertDialog(context, "Tài khoản không tồn tại");
+        showAlertDialog(context, "Tài khoản hoặc mật khẩu không đúng");
       }
-    } else {
-      setState(() {
-        isLoginTrue = true;
-      });
-      showAlertDialog(context, "Tài khoản hoặc mật khẩu không đúng");
     }
   }
 

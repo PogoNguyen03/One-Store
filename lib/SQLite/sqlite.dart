@@ -50,14 +50,24 @@ class DatabaseHelper {
     final path = join(databasePath, databaseName);
 
     print('Đường dẫn database: $path');
-    // Xóa cơ sở dữ liệu hiện tại (nếu cần)
-    // await deleteDatabase(path);
 
     return openDatabase(path, version: 1, onCreate: (db, version) async {
+      await db.execute(cartItemsTable); // Create cart items table
+      await db.execute(addressesTable); // Create addresses table
       await db.execute(user); // Tạo bảng users
-      await db
-          .execute(cartItemsTable); // Tạo bảng product_model (nếu chưa tồn tại)
-      await db.execute(addressesTable);
+
+      // Insert default admin user
+      await db.insert('users', {
+        'usrName': 'admin',
+        'usrPassword': 'admin',
+        'fullname': 'Administrator',
+        'phoneNumber': '123456789',
+        'address': 'Admin Address',
+        'gmail': 'admin@example.com',
+        'usrBirday': '1970-01-01',
+        'isDefault': 1,
+        'usrImage': ''
+      });
     });
   }
 
@@ -71,14 +81,10 @@ class DatabaseHelper {
   Future<bool> login(Users user) async {
     final Database db = await initDB();
 
-    // I forgot the password to check
     var result = await db.rawQuery(
-        "select * from users where usrName = '${user.usrName}' AND usrPassword = '${user.usrPassword}'");
-    if (result.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
+        "SELECT * FROM users WHERE usrName = ? AND usrPassword = ?",
+        [user.usrName, user.usrPassword]);
+    return result.isNotEmpty;
   }
 
   //Sign up
