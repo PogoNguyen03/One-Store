@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Điều hướng đến trang admin
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => AdminPage()),
+        MaterialPageRoute(builder: (context) => AdminDashboard()),
       );
     } else {
       var response = await db

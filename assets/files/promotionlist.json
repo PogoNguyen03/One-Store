@@ -1,0 +1,16 @@
+[
+  {
+    "code": "PROMO10",
+    "value": 10,
+    "quantity": 100,
+    "status": "Active",
+    "expiryDate": "2023-12-31"
+  },
+  {
+    "code": "PROMO20",
+    "value": 20,
+    "quantity": 50,
+    "status": "Inactive",
+    "expiryDate": "2023-11-30"
+  }
+]

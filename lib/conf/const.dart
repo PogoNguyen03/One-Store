@@ -7,3 +7,5 @@ const titleStyle = TextStyle(
   color: Color.fromARGB(255, 11, 7, 233),
 );
 const colorBackground = Color.fromRGBO(108, 117, 125, 0);
+
+const buttonBackgroundColor = Color(0xFFF3B664);

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Bút bi",
+    "material": "Nhựa",
+    "originalPrice": "2.500",
+    "sellingPrice": "2.000",
+    "size": "14cm",
+    "weight": "10g",
+    "quantity": 100,
+    "description": "Bút bi đen chất lượng cao",
+    "status": "Còn hàng"
+  },
+  {
+    "id": 2,
+    "name": "Bút chì",
+    "material": "Gỗ",
+    "originalPrice": "4.000",
+    "sellingPrice": "3.000",
+    "size": "15cm",
+    "weight": "5g",
+    "quantity": 50,
+    "description": "Bút chì 2B cho học sinh",
+    "status": "Hết hàng"
+  },
+  {
+    "id": 3,
+    "name": "Tẩy",
+    "material": "Cao su",
+    "originalPrice": "2.500",
+    "sellingPrice": "2.000",
+    "size": "5cm",
+    "weight": "20g",
+    "quantity": 200,
+    "description": "Tẩy bút chì mềm mại",
+    "status": "Còn hàng"
+  },
+  {
+    "id": 4,
+    "name": "Giấy A4",
+    "material": "Giấy",
+    "originalPrice": "25.000",
+    "sellingPrice": "20.000",
+    "size": "210x297mm",
+    "weight": "500g",
+    "quantity": 10,
+    "description": "Giấy in A4 80gsm chất lượng cao",
+    "status": "Còn hàng"
+  }
+]

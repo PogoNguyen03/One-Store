@@ -58,6 +58,8 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+  provider: ^5.0.0
+  image_picker: ^1.1.2
   flutter_lints: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -79,7 +81,14 @@ flutter:
     - assets/image/banner/
     - assets/image/category/
     - assets/image/book/
+    - assets/image/admin/
     - assets/layout/
+    - assets/files/booklist.json
+    - assets/files/stationerylist.json
+    - assets/files/userlist.json
+    - assets/files/orderlist.json
+    - assets/files/promotionlist.json
+    - assets/files/categorylist.json
 
 flutter_launcher_icons:
   android: true
