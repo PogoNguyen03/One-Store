@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:one_store/data/model/category_model.dart';
 import 'package:one_store/data/model/product_model.dart';
+import 'package:one_store/page/home/newproductscreen.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 import 'girdproductitem.dart';
 import 'categoryitem.dart';
@@ -137,7 +138,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.only(
                                       right: 30.0, top: 15),
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewProductScreen()),
+                                      );
+                                    },
                                     child: const Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[

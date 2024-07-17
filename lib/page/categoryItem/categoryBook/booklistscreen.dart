@@ -111,6 +111,25 @@ class _BookListScreenState extends State<BookListScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
+                      Positioned(
+                        top: 50,
+                        left: 30,
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                       Expanded(
                         child: CategoryBookListView(
                           categories: categories,
