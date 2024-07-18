@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/category_model.dart';
-import '../categoryItem/categoryBook/booklistscreen.dart';
+import 'package:one_store/page/categoryItem/categoryVPP/officesuppliesscreen.dart';
+import '../categoryItem/categoryBook/booklistscreen.dart'; // Import the correct screen
 
 class ListItems extends StatelessWidget {
   final int index;
@@ -11,14 +12,28 @@ class ListItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BookListScreen(
-              categoryId: categoriesGrid[index].categoryid,
+        // Navigate based on the category id
+        if (categoriesGrid[index].categoryid == "1") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OfficeSuppliesScreen(
+                categoryId: '1',
+              ), // Replace with the correct screen
             ),
-          ),
-        );
+          );
+        } else if (categoriesGrid[index].categoryid == "2") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BookListScreen(
+                categoryId: categoriesGrid[index].categoryid,
+              ),
+            ),
+          );
+        } else {
+          // Handle other category IDs
+        }
       },
       child: Container(
         width: 120, // Adjust width to make it square
