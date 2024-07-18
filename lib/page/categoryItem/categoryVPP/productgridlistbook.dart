@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:one_store/data/model/product_model.dart';
+import 'package:one_store/data/model/officesupplies.dart';
+// import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 
-class ProductGrid extends StatelessWidget {
-  final List<ProductModel> products;
+class OfficeGrid extends StatelessWidget {
+  final List<OfficeSuppliesModel> products;
 
-  ProductGrid({required this.products});
+  OfficeGrid({required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,12 @@ class ProductGrid extends StatelessWidget {
                 final product = products[index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductDetail(product),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ProductDetail(products),
+                    //   ),
+                    // );
                   },
                   child: GridTile(
                     child: Column(
@@ -70,7 +71,7 @@ class ProductGrid extends StatelessWidget {
                                   width: double
                                       .infinity, // Chiều rộng chiếm toàn bộ ô lưới
                                   child: Image.asset(
-                                    'assets/image/book/${product.imageUrl}',
+                                    'assets/image/office/${product.imageUrl}',
                                     fit: BoxFit.cover,
                                   ),
                                 ),

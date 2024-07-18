@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/page/product/productdetailscreen.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -193,7 +194,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                                         const SizedBox(
                                                             height: 10),
                                                         Text(
-                                                          '${product.price} VNĐ',
+                                                          NumberFormat(
+                                                                  '###,###.###₫')
+                                                              .format(product
+                                                                  .price),
                                                           style: TextStyle(
                                                             color:
                                                                 Colors.red[700],

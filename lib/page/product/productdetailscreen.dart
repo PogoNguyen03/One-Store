@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
 import 'package:one_store/page/product/favoritebutton.dart';
@@ -204,7 +205,9 @@ class _ProductDetailState extends State<ProductDetail> {
           buildInfoRow('Thể loại:', getCategoryBookName(product.categoryBook)),
           buildInfoRow('Tác giả:', product.authorBook),
           buildInfoRow('Năm XB:', product.publishingYear),
-          buildInfoRow('Giá bán:', '${product.price} VNĐ', isPrice: true),
+          buildInfoRow(
+              'Giá bán:', NumberFormat('###,###.###₫').format(product.price),
+              isPrice: true),
           buildInfoRow('Kích thước:', product.sizeBook),
           buildInfoRow('Trọng lượng:', product.weightBook),
         ],

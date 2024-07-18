@@ -33,7 +33,7 @@ class _MainpageState extends State<Mainpage> {
   }
 
   static List<Widget> _widgetOptions(Users user) => <Widget>[
-        HomeScreen(),
+        HomeScreen(), // Gọi HomeScreen
         FavoritesScreen(),
         SearchScreen(),
         CartScreen(),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:one_store/data/model/users.dart';
+import 'package:one_store/mainpage.dart';
 import 'package:one_store/page/admin/adminscreen';
+import 'package:one_store/page/home/homescreen.dart';
 import 'package:one_store/page/login/loginscreen.dart';
 import 'package:one_store/data/provider/categoryprovider.dart';
 import 'package:one_store/data/provider/orderprovideradmin.dart';
@@ -36,6 +39,11 @@ class MainApp extends StatelessWidget {
         home: LoginScreen(), // Trang khởi đầu là LoginScreen
         routes: {
           '/adminDashboard': (context) => AdminDashboard(),
+          '/home': (context) => HomeScreen(), // Đường dẫn đến HomeScreen
+          '/mainpage': (context) => Mainpage(
+              user: Users(
+                  usrName: '',
+                  usrPassword: '')), // Đường dẫn đến Mainpage với truyền Users
         },
       ),
     );

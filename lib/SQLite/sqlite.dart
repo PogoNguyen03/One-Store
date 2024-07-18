@@ -7,6 +7,14 @@ import 'package:one_store/data/model/users.dart';
 
 class DatabaseHelper {
   final databaseName = "notes.db";
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
+
+  factory DatabaseHelper() {
+    return _instance;
+  }
+  DatabaseHelper._internal();
+
+  static DatabaseHelper get instance => _instance;
   // String noteTable =
   //     "CREATE TABLE notes (noteId INTEGER PRIMARY KEY AUTOINCREMENT, noteTitle TEXT NOT NULL, noteContent TEXT NOT NULL, createdAt TEXT DEFAULT CURRENT_TIMESTAMP)";
 
@@ -272,5 +280,10 @@ class DatabaseHelper {
   Future<int> insertAddress(Address address) async {
     final db = await initDB();
     return await db.insert('addresses', address.toMap());
+  }
+
+  Future<int> clearCart() async {
+    final db = await initDB();
+    return await db.delete('product_model');
   }
 }

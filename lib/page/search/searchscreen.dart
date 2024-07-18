@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:one_store/data/model/product_model.dart';
 // import 'package:one_store/globals.dart';
 import 'package:diacritic/diacritic.dart';
@@ -333,7 +334,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            '${product.price} VNĐ',
+                            NumberFormat('###,###.###₫').format(product.price),
                             style: TextStyle(
                               color: Colors.red[700],
                               fontSize: 14,

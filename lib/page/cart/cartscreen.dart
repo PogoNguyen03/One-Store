@@ -1,16 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:one_store/data/model/product_model.dart';
+import 'package:intl/intl.dart';
 import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/data/model/product_model.dart';
-import 'package:intl/intl.dart';
 import 'package:one_store/page/cart/orderscreen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _CartScreenState createState() => _CartScreenState();
 }
 
@@ -72,17 +70,26 @@ class _CartScreenState extends State<CartScreen> {
     loadCartItems(); // Reload items after update
   }
 
-  // Method to calculate the total amount for selected items
-  void calculateSelectedTotalAmount() {
-    totalAmount = cartItems.fold(
-      0,
-      (previousValue, item) {
-        if (item['isSelected']) {
-          return previousValue + (item['price'] * item['quantity']);
-        }
-        return previousValue;
-      },
+  // Method to place order and navigate to order success screen
+  void placeOrder() async {
+    // Simulate placing order logic here, e.g., sending order to server, etc.
+    // Clear cart after placing order
+    await dbHelper.clearCart();
+    loadCartItems(); // Reload to update UI after clearing cart
+
+    // Navigate to order success screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderSuccessScreen(),
+      ),
     );
+
+    // Delay and then navigate back to home screen
+    // Timer(Duration(seconds: 3), () {
+    //   Navigator.popUntil(
+    //       context, ModalRoute.withName('/')); // Navigate back to home screen
+    // });
   }
 
   @override
@@ -140,16 +147,17 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     if (cartItems.isEmpty)
                       const Center(
-                          child: Padding(
-                        padding: EdgeInsets.only(top: 200),
-                        child: Text(
-                          "Giỏ hàng của bạn đang trống",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 200),
+                          child: Text(
+                            "Giỏ hàng của bạn đang trống",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ))
+                      )
                     else
                       Expanded(
                         child: ListView.builder(
@@ -183,19 +191,6 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      // Checkbox(
-                                      //   value: cartItem['isSelected'] ?? false,
-                                      //   onChanged: (bool? value) {
-                                      //     setState(() {
-                                      //       cartItem['isSelected'] =
-                                      //           value ?? false;
-                                      //       calculateSelectedTotalAmount();
-                                      //     });
-                                      //   },
-                                      //   checkColor: Colors.white,
-                                      //   activeColor: const Color(0xFFEC8F5E),
-                                      // ),
-                                      const SizedBox(width: 12),
                                       Image.asset(
                                         "assets/image/book/${product.imageUrl}",
                                         width: 80,
@@ -313,62 +308,17 @@ class _CartScreenState extends State<CartScreen> {
                           },
                         ),
                       ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //       bottom: 50, right: 50, left: 50),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           const Text(
-                    //             "Tổng thanh toán",
-                    //             style: TextStyle(
-                    //                 color: Colors.black, fontSize: 15),
-                    //           ),
-                    //           Text(
-                    //             '$totalAmount VND',
-                    //             style: const TextStyle(
-                    //               color: Colors.red,
-                    //               fontSize: 18,
-                    //               fontWeight: FontWeight.bold,
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       ElevatedButton(
-                    //         onPressed: () {
-                    //           // Handle payment action
-                    //         },
-                    //         style: ElevatedButton.styleFrom(
-                    //           backgroundColor:
-                    //               const Color(0xFFEC8F5E), // Background color
-                    //           minimumSize: const Size(150, 50),
-                    //         ),
-                    //         child: const Text(
-                    //           'Thanh toán',
-                    //           style: TextStyle(
-                    //             color: Colors.white,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
               Positioned(
                 top: 700,
                 child: Container(
-                  width: MediaQuery.of(context)
-                      .size
-                      .width, // Độ rộng bằng chiều rộng của màn hình
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: Colors.white, // Màu nền của background
+                    color: Colors.white,
                   ),
-                  padding: const EdgeInsets.all(20), // Padding của Container
+                  padding: const EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -391,18 +341,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       const SizedBox(width: 40),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OrderScreen(
-                                totalQuantity: totalQuantity,
-                                totalAmount: totalAmount,
-                                distinctProductCount: distinctProductCount,
-                              ),
-                            ),
-                          );
-                        },
+                        onPressed: placeOrder,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           backgroundColor: const Color(0xFFF3B664),
@@ -426,6 +365,52 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class OrderSuccessScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Đặt hàng thành công'),
+        // Thêm nút trở về trang trước đó vào đây
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Điều hướng quay lại trang trước đó
+          },
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.check_circle_outline,
+              color: Colors.green,
+              size: 100,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Đặt hàng thành công!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/home', // Route của Mainpage
+                  (route) => false, // Loại bỏ tất cả các route khác
+                );
+              },
+              child: Text('Trở về trang chủ'),
+            ),
+          ],
         ),
       ),
     );

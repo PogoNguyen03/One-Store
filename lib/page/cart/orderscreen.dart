@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:one_store/SQLite/sqlite.dart';
 import 'package:one_store/page/cart/successscreen.dart';
 
 class OrderScreen extends StatelessWidget {
@@ -91,7 +94,71 @@ class OrderScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 200, left: 15, right: 15),
+                                top: 130, left: 15, right: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Địa chỉ",
+                                  style: TextStyle(
+                                    fontSize: 24, // Kích thước chữ
+                                    fontWeight: FontWeight.bold, // Đậm chữ
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Container(
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                        0xFFFBE7CD), // Màu nền của Container
+                                    borderRadius: BorderRadius.circular(
+                                        15), // Bo tròn các góc với bán kính 15
+                                  ),
+                                  child: const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        "Phong Nguyễn",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Container(
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                        0xFFFBE7CD), // Màu nền của Container
+                                    borderRadius: BorderRadius.circular(
+                                        15), // Bo tròn các góc với bán kính 15
+                                  ),
+                                  child: const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        "1041/80/6A, Trần Xuân Soạn, Tân Hung, Q7",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 290, left: 15, right: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -131,7 +198,7 @@ class OrderScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 340, left: 15, right: 15),
+                                top: 400, left: 15, right: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -290,12 +357,8 @@ class OrderScreen extends StatelessWidget {
                   right: 30, // Đặt nút nằm bên phải
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SuccessScreen(),
-                        ),
-                      );
+                      // Xử lý khi nhấn nút "Đặt hàng"
+                      _handlePlaceOrder(context);
                     },
                     child: const Text('Đặt hàng'),
                     style: ElevatedButton.styleFrom(
@@ -318,5 +381,24 @@ class OrderScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handlePlaceOrder(BuildContext context) async {
+    // Đợi 1 giây để hiển thị màn hình SuccessScreen
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SuccessScreen(),
+      ),
+    );
+
+    // Sau khi hoàn thành đặt hàng, chờ 3 giây trước khi quay lại màn hình chủ
+    await Future.delayed(Duration(seconds: 3));
+
+    // Xóa giỏ hàng
+    await DatabaseHelper.instance.clearCart();
+
+    // Quay lại màn hình chủ
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 }

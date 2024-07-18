@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:one_store/data/model/product_model.dart';
-// import 'package:one_store/page/product/productdetailscreen.dart';
-import 'package:one_store/data/model/category_book_model.dart';
+import 'package:one_store/data/model/category_officesupplies_model.dart';
+import 'package:one_store/data/model/officesupplies.dart';
+// import 'package:one_store/data/model/product_model.dart';
+import 'package:one_store/page/categoryItem/categoryVPP/categorybooklistview.dart';
+import 'package:one_store/page/categoryItem/categoryVPP/productgridlistbook.dart';
+// // import 'package:one_store/page/product/productdetailscreen.dart';
+// import 'package:one_store/page/categoryItem/categoryBook/categorybooklistview.dart';
 
 class OfficeSuppliesScreen extends StatefulWidget {
   final String categoryId;
@@ -13,7 +17,7 @@ class OfficeSuppliesScreen extends StatefulWidget {
 }
 
 class _OfficeSuppliesScreenState extends State<OfficeSuppliesScreen> {
-  List<ProductModel> filteredProducts = [];
+  List<OfficeSuppliesModel> filteredProducts = [];
   String selectedCategoryId = '';
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   bool noProductsFound = false;
@@ -28,16 +32,16 @@ class _OfficeSuppliesScreenState extends State<OfficeSuppliesScreen> {
     setState(() {
       selectedCategoryId = categoryId;
       if (categoryId.isEmpty) {
-        filteredProducts = productsGrid;
+        filteredProducts = officeGrid;
       } else {
-        filteredProducts = productsGrid
+        filteredProducts = officeGrid
             .where((product) => product.categoryBook == categoryId)
             .toList();
       }
     });
   }
 
-  void updateFilter(List<ProductModel> newProducts) {
+  void updateFilter(List<OfficeSuppliesModel> newProducts) {
     setState(() {
       filteredProducts = newProducts;
     });
@@ -45,9 +49,9 @@ class _OfficeSuppliesScreenState extends State<OfficeSuppliesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<CategoryBookModel> categories = [
-      CategoryBookModel(categoryBookid: '', name: 'Tất cả'),
-      ...categoryBookGrid,
+    List<CategoryOfficeSuppliesModel> categories = [
+      CategoryOfficeSuppliesModel(categoryOfficeSuppliesid: '', name: 'Tất cả'),
+      ...categoryOfficeSuppliesGrid,
     ];
     return Scaffold(
       key: _scaffoldKey,
@@ -127,15 +131,16 @@ class _OfficeSuppliesScreenState extends State<OfficeSuppliesScreen> {
                           ),
                         ),
                       ),
-                      // Expanded(
-                      //   child: CategoryBookListView(
-                      //     categories: categories,
-                      //     onCategorySelected: (selectedCategory) {
-                      //       filterProducts(selectedCategory.categoryBookid);
-                      //     },
-                      //     selectedCategoryId: selectedCategoryId,
-                      //   ),
-                      // ),
+                      Expanded(
+                        child: CategoryVPPListView(
+                          categories: categories,
+                          onCategorySelected: (selectedCategory) {
+                            filterProducts(
+                                selectedCategory.categoryOfficeSuppliesid);
+                          },
+                          selectedCategoryId: selectedCategoryId,
+                        ),
+                      ),
                       IconButton(
                         iconSize: 30,
                         icon: const Icon(Icons.tune, color: Colors.black),
@@ -148,20 +153,20 @@ class _OfficeSuppliesScreenState extends State<OfficeSuppliesScreen> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   top: 200,
-              //   left: 0,
-              //   right: 0,
-              //   bottom: 0,
-              //   child: noProductsFound
-              //       ? const Center(
-              //           child: Text(
-              //             "Không tìm thấy sản phẩm",
-              //             style: TextStyle(fontSize: 16),
-              //           ),
-              //         )
-              //       : ProductGrid(products: filteredProducts),
-              // ),
+              Positioned(
+                top: 200,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: noProductsFound
+                    ? const Center(
+                        child: Text(
+                          "Không tìm thấy sản phẩm",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    : OfficeGrid(products: filteredProducts),
+              ),
             ],
           ),
         ),

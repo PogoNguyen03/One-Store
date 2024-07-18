@@ -81,6 +81,7 @@ flutter:
     - assets/image/banner/
     - assets/image/category/
     - assets/image/book/
+    - assets/image/office/
     - assets/image/admin/
     - assets/layout/
     - assets/files/booklist.json
