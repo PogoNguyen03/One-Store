@@ -39,7 +39,9 @@ class MainApp extends StatelessWidget {
         home: LoginScreen(), // Trang khởi đầu là LoginScreen
         routes: {
           '/adminDashboard': (context) => AdminDashboard(),
-          '/home': (context) => HomeScreen(), // Đường dẫn đến HomeScreen
+          '/home': (context) => Mainpage(
+              user: Users(
+                  usrName: '', usrPassword: '')), // Đường dẫn đến HomeScreen
           '/mainpage': (context) => Mainpage(
               user: Users(
                   usrName: '',

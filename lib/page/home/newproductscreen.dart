@@ -55,35 +55,7 @@ class _NewProductScreenState extends State<NewProductScreen> {
                   ),
                 ),
                 Positioned(
-                  top: 130,
-                  left: 30,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(
-                              width: 8), // Khoảng cách giữa icon và dữ liệu
-                          const Text(
-                            'Trở về',
-                            style: TextStyle(
-                              color: Colors.white, // Màu chữ
-                              fontSize: 16, // Kích thước chữ
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 170,
+                  top: 151,
                   left: 0,
                   right: 0,
                   bottom: 0,
@@ -91,16 +63,36 @@ class _NewProductScreenState extends State<NewProductScreen> {
                     color: Colors.white,
                     child: SingleChildScrollView(
                       child: Stack(children: [
-                        // SizedBox(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: Image.asset(
-                        //     "assets/layout/layout_2.png",
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.asset(
+                            "assets/layout/layout_5.png",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 30,
+                          left: 40,
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: Colors.white,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: const Color(0xFFF3B664),
+                                padding: const EdgeInsets.all(15),
+                              ),
+                            ),
+                          ),
+                        ),
                         Column(
                           children: <Widget>[
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 150),
                             GridView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
