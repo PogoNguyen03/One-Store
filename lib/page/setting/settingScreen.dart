@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:circle_nav_bar/circle_nav_bar.dart';
 // import 'package:one_store/mainpage.dart';
 import 'package:one_store/page/login/loginscreen.dart';
+import 'package:one_store/page/setting/addressuser/addressscreen.dart';
 // import 'package:one_store/page/setting/addressScreen.dart';
 import '../../data/model/users.dart';
 import 'profileuser/profileUserScreen.dart';
@@ -153,10 +154,10 @@ class _settingScreenState extends State<SettingScreen> {
                     const SizedBox(height: 30), // Adjust the height as needed
                     InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const AddressScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddressScreen()));
                       },
                       child: const Row(
                         children: [

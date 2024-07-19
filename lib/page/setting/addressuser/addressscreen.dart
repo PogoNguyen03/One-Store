@@ -1,193 +1,184 @@
-// import 'package:flutter/material.dart';
-// import 'package:one_store/SQLite/sqlite.dart';
-// import 'package:one_store/data/model/address.dart';
-// import 'package:your_package_name_here/data/model/address.dart'; // Thay đổi thành model của địa chỉ của bạn
-// import 'package:your_package_name_here/data/database_helper.dart'; // Thay đổi thành helper class của bạn
+import 'package:flutter/material.dart';
+import 'package:one_store/data/model/address_model.dart';
+import 'package:one_store/data/provider/addressprovider.dart';
+import 'package:one_store/page/setting/settingScreen.dart';
+import 'package:path_provider/path_provider.dart';
+import './address_body.dart';
 
-// class AddressScreen extends StatefulWidget {
-//   final int userId; // Nhận userId từ các tham số của widget
+class AddressScreen extends StatefulWidget {
+  const AddressScreen({Key? key}) : super(key: key);
 
-//   const AddressScreen({Key? key, required this.userId}) : super(key: key);
+  @override
+  State<AddressScreen> createState() => _AddressScreenState();
+}
 
-//   @override
-//   _AddressScreenState createState() => _AddressScreenState();
-// }
+class _AddressScreenState extends State<AddressScreen> {
+  List<Address> addresses = [];
 
-// class _AddressScreenState extends State<AddressScreen> {
-//   late List<Address> addresses;
-//   bool isLoading = true;
+  Future<String> loadAddressList() async {
+    addresses = await ReadAddressData().loadAddressData();
+    setState(() {});
+    return '';
+  }
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchAddresses();
-//   }
+  @override
+  void initState() {
+    super.initState();
+    loadAddressList();
+  }
 
-//   Future<void> fetchAddresses() async {
-//     try {
-//       addresses = await DatabaseHelper().getAddressesByUserId(widget.userId);
-//       setState(() {
-//         isLoading = false;
-//       });
-//     } catch (e) {
-//       // Xử lý lỗi khi fetch địa chỉ không thành công
-//       print('Fetch addresses error: $e');
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Danh sách địa chỉ'),
-//       ),
-//       body: isLoading
-//           ? Center(child: CircularProgressIndicator())
-//           : addresses.isEmpty
-//               ? Center(
-//                   child: Text('Không có địa chỉ nào'),
-//                 )
-//               : ListView.builder(
-//                   itemCount: addresses.length,
-//                   itemBuilder: (context, index) {
-//                     Address address = addresses[index];
-//                     return ListTile(
-//                       title: Text(address.street ?? ''),
-//                       subtitle: Text(
-//                           '${address.city ?? ''}, ${address.district ?? ''}'),
-//                       // Thêm các thông tin địa chỉ khác vào đây
-//                     );
-//                   },
-//                 ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           // Chuyển sang màn hình thêm địa chỉ mới
-//           Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => AddAddressScreen(userId: widget.userId),
-//             ),
-//           ).then((_) {
-//             // Sau khi thêm địa chỉ, làm mới danh sách
-//             fetchAddresses();
-//           });
-//         },
-//         child: Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }
-
-// class AddAddressScreen extends StatefulWidget {
-//   final int userId; // Nhận userId từ các tham số của widget
-
-//   const AddAddressScreen({Key? key, required this.userId}) : super(key: key);
-
-//   @override
-//   _AddAddressScreenState createState() => _AddAddressScreenState();
-// }
-
-// class _AddAddressScreenState extends State<AddAddressScreen> {
-//   late TextEditingController streetController;
-//   late TextEditingController cityController;
-//   late TextEditingController districtController;
-//   late TextEditingController wardController;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     streetController = TextEditingController();
-//     cityController = TextEditingController();
-//     districtController = TextEditingController();
-//     wardController = TextEditingController();
-//   }
-
-//   @override
-//   void dispose() {
-//     streetController.dispose();
-//     cityController.dispose();
-//     districtController.dispose();
-//     super.dispose();
-//   }
-
-//   Future<void> saveAddress() async {
-//     Address newAddress = Address(
-//       userId: widget.userId,
-//       street: streetController.text,
-//       city: cityController.text,
-//       district: districtController.text,
-//       ward: wardController.text,
-
-//       // Thêm các trường dữ liệu khác của địa chỉ nếu cần
-//     );
-
-//     try {
-//       await DatabaseHelper().insertAddress(newAddress);
-//       Navigator.pop(
-//           context); // Quay lại màn hình trước đó sau khi thêm địa chỉ thành công
-//     } catch (e) {
-//       // Xử lý lỗi khi thêm địa chỉ không thành công
-//       print('Save address error: $e');
-//       // Hiển thị thông báo lỗi
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text('Lỗi: Không thể thêm địa chỉ')),
-//       );
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Thêm địa chỉ mới'),
-//       ),
-//       body: Padding(
-//         padding: EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.stretch,
-//           children: [
-//             TextField(
-//               controller: streetController,
-//               decoration: InputDecoration(
-//                 labelText: 'Đường',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             SizedBox(height: 12.0),
-//             TextField(
-//               controller: cityController,
-//               decoration: InputDecoration(
-//                 labelText: 'Thành phố',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             SizedBox(height: 12.0),
-//             TextField(
-//               controller: districtController,
-//               decoration: InputDecoration(
-//                 labelText: 'Quận/Huyện',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             SizedBox(height: 12.0),
-//             TextField(
-//               controller: wardController,
-//               decoration: InputDecoration(
-//                 labelText: 'Phường/Xã',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             SizedBox(height: 24.0),
-//             ElevatedButton(
-//               onPressed: saveAddress,
-//               child: Text('Lưu địa chỉ'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Stack(
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  "assets/layout/layout_1.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        "assets/image/logo_2.png",
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.contain,
+                      ),
+                      Spacer(flex: 1),
+                      IconButton(
+                        iconSize: 40,
+                        icon: const Icon(Icons.notifications,
+                            color: Colors.white),
+                        onPressed: () {
+                          // Hành động khi nút được nhấn
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 160,
+                left: 40,
+                child: Center(
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Colors.white,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      backgroundColor: const Color(0xFFF3B664),
+                      padding: const EdgeInsets.all(15),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 230,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          // const SizedBox(
+                          //   height: 60,
+                          // ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                width: 31,
+                              ),
+                              const Text(
+                                'Địa chỉ',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 220,
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => const settingScreen(),
+                                  //   ),
+                                  // );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFEC8F5E),
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(8),
+                                ),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: addresses.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    height: 1.0,
+                                    color: Colors.grey[300], // Màu xám nhạt
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 10.0), // Khoảng cách ngang
+                                  ),
+                                  ItemAddressGridView(
+                                      addresses[index]), // Widget item của bạn
+                                  // Container(
+                                  //   height: 1.0,
+                                  //   color: Colors.grey[300], // Màu xám nhạt
+                                  //   margin: const EdgeInsets.symmetric(
+                                  //       horizontal: 10.0), // Khoảng cách ngang
+                                  // ),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 100,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

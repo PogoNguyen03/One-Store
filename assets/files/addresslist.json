@@ -1,0 +1,18 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "userName": "Nguyễn Cảnh Phong",
+            "phoneNumber": "0774651178",
+            "address": "1041/80/6A, Trần Xuân Soạn, Tân Hưng, Q7",
+            "isDefault": true
+        },
+        {
+            "id": 2,
+            "userName": "Phụng",
+            "phoneNumber": "0908257865",
+            "address": "456 Nguyễn Trãi Phường 2 Quận 5 TP Hồ Chí Minh",
+            "isDefault": false
+        }
+    ]
+}
