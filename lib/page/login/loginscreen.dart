@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_store/page/admin/adminscreen';
+import 'package:one_store/page/admin/adminscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_store/page/register/registerscreen.dart';
 import 'package:one_store/page/login/forgetpass.dart';

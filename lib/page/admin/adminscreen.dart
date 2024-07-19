@@ -7,7 +7,6 @@ import 'package:one_store/page/Admin/promotion/promotionmanagement.dart';
 import 'package:one_store/page/Admin/user/usermanagement.dart';
 import 'package:one_store/widgets/adminbutton.dart';
 
-
 class AdminDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -75,8 +74,7 @@ class AdminDashboard extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => ManageCategoryPage()),
+                  MaterialPageRoute(builder: (context) => ManageCategoryPage()),
                 );
               },
             ),

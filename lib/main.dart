@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:one_store/data/model/users.dart';
 import 'package:one_store/mainpage.dart';
-import 'package:one_store/page/admin/adminscreen';
+import 'package:one_store/page/admin/adminscreen.dart';
 import 'package:one_store/page/home/homescreen.dart';
 import 'package:one_store/page/login/loginscreen.dart';
 import 'package:one_store/data/provider/categoryprovider.dart';
